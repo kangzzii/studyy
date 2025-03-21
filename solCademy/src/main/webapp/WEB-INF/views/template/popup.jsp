@@ -5,7 +5,7 @@
 <html>
 <head>
 <title>popup</title>
-<link href="/resource/common.css" rel="stylesheet">
+<link href="/resource/css/common.css" rel="stylesheet">
 </head>
 <body>
 	<div id="popup">

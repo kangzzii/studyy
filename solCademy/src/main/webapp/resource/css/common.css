@@ -58,6 +58,9 @@ body { overflow-x: hidden; }
 	grid-template-columns: 200px 1fr;
 	position: relative;
 }
+.inner {
+	padding: 20px;
+}
 header, footer {
 	width: 100%;
 	text-align: center;
@@ -124,7 +127,4 @@ nav ul li {
 	border-bottom: 1px solid #000;
 	font-size: 16px;
 	font-weight: 700;
-}
-#popup .inner {
-	padding: 20px;
 }
