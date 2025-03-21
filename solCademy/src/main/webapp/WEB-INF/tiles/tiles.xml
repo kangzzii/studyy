@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+ 
+<tiles-definitions>
+    <!-- 메뉴 탭 타일즈 -->
+    <definition name="layouts-tiles" template="/WEB-INF/tiles/tiles-layout.jsp">
+        <put-attribute name="header" value="/WEB-INF/tiles/common/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/tiles/common/menu.jsp" />
+        <put-attribute name="body" value=""/>
+        <put-attribute name="sidebar" value="/WEB-INF/tiles/common/sidebar.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/common/footer.jsp" />
+    </definition>
+ 
+    <definition name="*/*" extends="layouts-tiles">
+        <put-attribute name="body" value="/WEB-INF/tiles/{1}/{2}.jsp" />
+    </definition>
+ 
+</tiles-definitions>
