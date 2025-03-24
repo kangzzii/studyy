@@ -66,11 +66,6 @@
 	    p:viewClass="org.springframework.web.servlet.view.JstlView"
 	    p:prefix="/WEB-INF/jsp/view/" p:suffix=".jsp"/>
 
-	<!-- AJAX VIEW RESOLVER 설정  -->
-	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
-		<property name="contentType" value="application/json;charset=UTF-8" />
-	</bean>
-	
     <!-- For Pagination Tag -->
     <bean id="imageRenderer" class="egovframework.example.cmmn.web.EgovImgPaginationRenderer"/>
 
