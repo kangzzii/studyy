@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class Task3 {
@@ -18,7 +21,7 @@ public class Task3 {
     String[] genderArr = {"F","M", "F", "F", "F", "M", "F", "M", "F", "M"};
     String[] userYnArr = {"Y","Y", "N", "Y", "Y", "N", "N", "Y", "Y", "N"};
 
-	public List<?> makeList() {
+	public List<Task3Data> makeList() {
 		List<Task3Data> userList = new ArrayList<>();
 		for(int i=0; i<nameArr.length; i++) {
 			userList.add(new Task3Data(nameArr[i], ageArr[i],phoneArr[i], nationArr[i], genderArr[i], userYnArr[i]));
@@ -32,4 +35,18 @@ public class Task3 {
 		model.addAttribute("userList", makeList());
 		return "tiles/task/list";
 	}
+
+	@GetMapping("/ajaxViewList.do")
+	public String ajaxViewList() {
+		return "tiles/task/ajaxList";
+	}
+	
+	@RequestMapping(value="/ajaxView.do", method=RequestMethod.POST)
+	@ResponseBody
+	public List<Task3Data> ajaxView() {
+	    return makeList();
+	}
+	
+	
+	
 }

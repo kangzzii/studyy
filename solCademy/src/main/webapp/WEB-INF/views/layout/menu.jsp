@@ -4,6 +4,8 @@
 <nav>
 	<ul>
 		<li><a href="/calendar.do">Toast calendar</a></li>
+		<li><a href="/viewList.do">list</a></li>
+		<li><a href="/ajaxViewList.do">ajax list</a></li>
 		<li><a href="javascript:void(0)" onclick='window.open("/tiles/popup.do", "popup", "width=400,height=400")'>팝업이 띠용</a></li>
 	</ul>
 </nav>

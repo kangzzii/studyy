@@ -4,6 +4,7 @@
 <html>
 <head>
 <title>solCademy</title>
+<script src="/resource/js/jquery-3.7.1.min.js"></script>
 <link href="/resource/css/common.css" rel="stylesheet">
 </head>
 <body>
@@ -17,7 +18,6 @@
  <tiles:insertAttribute name="footer"/>
 </div>
 </body>
-<script src="/resource/js/jquery-3.7.1.min.js"></script>
 <script>
 	$(function(){
 		$('.btnSidebar').click(function(){
