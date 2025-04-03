@@ -12,7 +12,9 @@
  <tiles:insertAttribute name="header"/>
  <div id="contents">
 	 <tiles:insertAttribute name="menu"/>
-	 <tiles:insertAttribute name="body"/>
+	 <div style="padding: 20px;">
+         <tiles:insertAttribute name="body"/>
+     </div>
 	 <tiles:insertAttribute name="sidebar"/>
  </div>
  <tiles:insertAttribute name="footer"/>
