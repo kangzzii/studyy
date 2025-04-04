@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-  
+
 <article class="calendar-wrap">
     <aside class="side">
       <div class="sidebar-item">
-        <input class="checkbox-all" type="checkbox" id="all" value="all" checked />
-        <label class="checkbox checkbox-all" for="all">View all</label>
+        <input class="checkbox-all" type="checkbox" id="memberAll" value="memberAll" checked />
+        <label class="checkbox checkbox-all" for="memberAll">View all</label>
       </div>
       <hr />
-    </aside>    
+    </aside>
     <section class="app-column">
   <nav class="navbar">
     <div class="dropdown">
@@ -26,12 +26,13 @@
       </div>
       <div class="dropdown-menu">
         <div class="dropdown-content">
-          <a href="#" class="dropdown-item" data-view-name="month">Monthly</a>
-          <a href="#" class="dropdown-item" data-view-name="week">Weekly</a>
-          <a href="#" class="dropdown-item" data-view-name="day">Daily</a>
+          <a href="#" class="dropdown-item" data-view-name="month">월간일정</a>
+          <a href="#" class="dropdown-item" data-view-name="week">주간일정</a>
+          <a href="#" class="dropdown-item" data-view-name="day">일간일정</a>
         </div>
       </div>
     </div>
+    <button class="button is-rounded register">등록</button>
     <button class="button is-rounded today">Today</button>
     <button class="button is-rounded prev">
       <img
@@ -46,75 +47,89 @@
       />
     </button>
     <span class="navbar--range"></span>
-    <div class="nav-checkbox">
-      <input class="checkbox-collapse" type="checkbox" id="collapse" value="collapse" />
-      <label for="collapse">Collapse duplicate events and disable the detail popup</label>
-    </div>
   </nav>
   <main id="app"></main>
 </section>
 </article>
-   
-<!-- css -->
-<link rel="stylesheet" href="/resource/css/toastui-calendar.min.css">
-<link rel="stylesheet" href="/resource/css/calendar/app.css" />
-<link rel="stylesheet" href="/resource/css/calendar/icons.css" />
-<!-- js -->
-<script src="/resource/js/calendar/moment.min.js"></script>
-<script src="/resource/js/calendar/toastui-calendar.min.js"></script>
-<script src="/resource/js/calendar/mockData.js"></script>
-<script src="/resource/js/calendar/utils.js"></script>
 
 <script>
 $(function(){
-    init.calendar();
+    calendar.init();
 })
-/////////////////////////////////////////////////////////
-var cal;
-var cls = function (className) {
-    return 'toastui-calendar-' + className;
+// App State
+var appState = {
+  activeCalendarIds: MOCK_CALENDARS.map(function (calendar) { // calendarId 주입
+    return calendar.id;
+  }),
+  isDropdownActive: false,
 };
-// 요소
-var navbarRange = $('.navbar--range');
-var prevButton = $('.prev');
-var nextButton = $('.next');
-var todayButton = $('.today');
-var dropdown = $('.dropdown');
-var dropdownTrigger = $('.dropdown-trigger');
-var dropdownTriggerIcon = $('.dropdown-icon');
-var dropdownContent = $('.dropdown-content');
-var checkboxCollapse = $('.checkbox-collapse');
-var sidebar = $('.side');
+var cal;
+var calFunc = {
+        // 드롭다운 텍스트 리턴
+        getReadableViewName : function(viewType){
+            switch (viewType) {
+            case 'month':
+              return '월간일정';
+            case 'week':
+              return '주간일정';
+            case 'day':
+              return '일간일정';
+            default:
+              throw new Error('no view type');
+          }
+        }
+       // dropdown toggle class
+       ,toggleDropdownState: function(){
+           $('.dropdown').toggleClass('is-active', appState.isDropdownActive);
+           $('.dropdown-icon').toggleClass('open', appState.isDropdownActive)
+           appState.isDropdownActive = !appState.isDropdownActive;
+       }
+       // checkbox all
+       ,setAllCheckboxes :function(checked) {    // checked: true,false
+           var checkboxes = $('.sidebar-item > input[type="checkbox"]');
+           checkboxes.each(function (index, checkbox) {
+               checkbox.checked = checked;
+               calFunc.setCheckboxBackgroundColor(checkbox);
+           });
+       }
+       // 사이드바 체크박스 색상
+        ,setCheckboxBackgroundColor: function(checkbox) {
+            var calendarId = $(checkbox).val(); // member__ 값
+            var label = $(checkbox).siblings('label');
+            var calendarInfo = MOCK_CALENDARS.find(function (calendar) {
+                return calendar.id === calendarId;
+              });
+            if (!calendarInfo) {
+                calendarInfo = {
+                  backgroundColor: '#2a4fa7',
+                };
+            }
+            label.css('--checkbox-' + calendarId.split('member')[1], checkbox.checked ? calendarInfo.backgroundColor : '#fff');
+        }
+}
+var calendar = {
+        // 초기값
+        init: function(){
+            calendar.setCal();  // 캘린더 기본 셋팅
+            calendar.bindEvent();
+        }
+        //캘린더 초기설정
+        ,setCal: function(){
+            // calendar 기본설정
+            cal = new tui.Calendar($('#app')[0],{
+                calendars: MOCK_CALENDARS
+                ,defaultView: 'month'
+                ,useFormPopup: true // 팝업
+                ,useDetailPopup: true   // 팝업
+            });
+            // 요일 셋팅
+            cal.setOptions({
+                week: {
+                  dayNames: ['월', '화', '수', '목', '금', '토', '일']
+                },
+            });
 
-// 초기함수
-var init = {
-    // 달력
-    calendar : function() {
-        // 달력 초기셋팅
-        cal = new tui.Calendar($('#app')[0],{ 
-            calendars: MOCK_CALENDARS,
-            useFormPopup: true, // 팝업
-            useDetailPopup: true,   // 팝업
-            eventFilter: function (event) {
-              var currentView = cal.getViewName();
-              if (currentView === 'month') {
-                return ['allday', 'time'].includes(event.category) && event.isVisible;
-              }
-
-              return event.isVisible;
-            },
-            template: {
-              allday: function (event) {
-                return getEventTemplate(event, true);
-              },
-              time: function (event) {
-                return getEventTemplate(event, false);
-              },
-            },
-        });
-        
-        // sidebar 셋팅
-        function initSideBar() {
+            // 사이드바 셋팅
             var txt= '';
             for(let i=0;i<MOCK_CALENDARS.length ;i++){
               txt += '<div class="sidebar-item">';
@@ -123,241 +138,152 @@ var init = {
               txt += '</div>';
             }
             $('.side').append(txt);
+
+            // 사이드바 내부 체크박스 색 추가
+            var checkboxes = $('.sidebar-item > input[type="checkbox"]');
+            checkboxes.each(function (index, checkbox) {
+                checkbox.checked = 'checked';
+                calFunc.setCheckboxBackgroundColor(checkbox);
+            });
+
+            //드롭다운 세팅
+            var viewName = cal.getViewName();
+            var buttonText = $('.dropdown .button-text');
+            buttonText.text(calFunc.getReadableViewName(viewName));
+
+            // 날짜 범위표시
+            calendar.renderRange();
         }
-        
-        // Init
-        bindInstanceEvents();
-        bindAppEvents();
-        update();
-        initSideBar();
-        initCheckbox();
-    },
-}
-
-
-// App State
-var appState = {
-  activeCalendarIds: MOCK_CALENDARS.map(function (calendar) { // calendarId 주입
-    return calendar.id;
-  }),
-  isDropdownActive: false,
-};
-
-// functions to handle calendar behaviors
-function reloadEvents() {
-  // var randomEvents;
-  /* randomEvents = [
-    cal.getViewName(),
-    cal.getDateRangeStart(),
-    cal.getDateRangeEnd()
-  ]; */
-
-  cal.clear();
-  cal.createEvents(eventData);  // 이벤트 주입
-}
-
-function getReadableViewName(viewType) {
-  switch (viewType) {
-    case 'month':
-      return 'Monthly';
-    case 'week':
-      return 'Weekly';
-    case 'day':
-      return 'Daily';
-    default:
-      throw new Error('no view type');
-  }
-}
-
-// 달력 시작일 종료일
-function displayRenderRange() {
-  var rangeStart = cal.getDateRangeStart();
-  var rangeEnd = cal.getDateRangeEnd();
-
-  navbarRange.text(getNavbarRange(rangeStart, rangeEnd, cal.getViewName()));
-}
-
-function setDropdownTriggerText() {
-  var viewName = cal.getViewName();
-  var buttonText = $('.dropdown .button-text');
-  buttonText.text(getReadableViewName(viewName));
-}
-
-function toggleDropdownState() {
-  appState.isDropdownActive = !appState.isDropdownActive;
-  dropdown.toggleClass('is-active', appState.isDropdownActive);
-  dropdownTriggerIcon.toggleClass(cls('open'), appState.isDropdownActive);
-}
-
-// sidebar all check
-function setAllCheckboxes(checked) {
-  var checkboxes = $('.sidebar-item > input[type="checkbox"]');
-
-  checkboxes.each(function (checkbox) {
-    checkbox.checked = checked;
-    setCheckboxBackgroundColor(checkbox);
-  });
-}
-
-//sidebar all check
-function setCheckboxBackgroundColor(checkbox) {
-    var calendarId = $(checkbox).val();
-    
-    var label = $(checkbox).siblings('label');
-    var calendarInfo = MOCK_CALENDARS.find(function (calendar) {
-        return calendar.id === calendarId;
-      });
-    if (!calendarInfo) {
-        calendarInfo = {
-          backgroundColor: '#2a4fa7',
-        };
-    }
-    label.css('--checkbox-' + calendarId.split('member')[1], checkbox.checked ? calendarInfo.backgroundColor : '#fff');
-}
-
-// update
-function update() {
-  setDropdownTriggerText();
-  displayRenderRange();
-  reloadEvents();
-}
-// event
-function bindAppEvents() {
-  dropdownTrigger.on('click', toggleDropdownState);
-  //btn prev
-  prevButton.on('click', function () {
-    cal.prev();
-    update();
-  });
-  // btn next
-  nextButton.on('click', function () {
-    cal.next();
-    update();
-  });
-  // btn today
-  todayButton.on('click', function () {
-    cal.today();
-    update();
-  });
-  // drop down
-  dropdownContent.on('click', function (e) {
-    var targetViewName;
-
-    if ('viewName' in e.target.dataset) {
-      targetViewName = e.target.dataset.viewName;
-      cal.changeView(targetViewName);
-      checkboxCollapse.disabled = targetViewName === 'month';
-      toggleDropdownState();
-      update();
-    }
-  });
-
-  checkboxCollapse.on('change', function (e) {
-    if ('checked' in e.target) {
-      cal.setOptions({
-        week: {
-          collapseDuplicateEvents: !!e.target.checked,
-        },
-        useDetailPopup: !e.target.checked,
-      });
-    }
-  });
-
-  sidebar.on('click', function (e) {
-    if ('value' in e.target) {
-      if (e.target.value === 'all') {
-        if (appState.activeCalendarIds.length > 0) {
-          cal.setCalendarVisibility(appState.activeCalendarIds, false);
-          appState.activeCalendarIds = [];
-          setAllCheckboxes(false);
-        } else {
-          appState.activeCalendarIds = MOCK_CALENDARS.map(function (calendar) {
-            return calendar.id;
-          });
-          cal.setCalendarVisibility(appState.activeCalendarIds, true);
-          setAllCheckboxes(true);
+        // update
+        ,updateCal : function(){
+            var viewName = cal.getViewName();
+            var buttonText = $('.dropdown .button-text');
+            buttonText.text(calFunc.getReadableViewName(viewName));
+            calendar.renderRange()
+            cal.clear();
+            cal.createEvents(eventData);  // 이벤트 주입
         }
-      } else if (appState.activeCalendarIds.indexOf(e.target.value) > -1) {
-        appState.activeCalendarIds.splice(appState.activeCalendarIds.indexOf(e.target.value), 1);
-        cal.setCalendarVisibility(e.target.value, false);
-        setCheckboxBackgroundColor(e.target);
-      } else {
-        appState.activeCalendarIds.push(e.target.value);
-        cal.setCalendarVisibility(e.target.value, true);
-        setCheckboxBackgroundColor(e.target);
-      }
-    }
-  });
+        // 날짜 범위표시
+        ,renderRange : function(){
+            var rangeStart = cal.getDateRangeStart();
+            var rangeEnd = cal.getDateRangeEnd();
+
+            var date;
+            var txt;
+            var viewName = cal.getViewName();
+
+            if( viewName == 'month' ){  // 월간일정
+                date = getNavbarRange(rangeStart, rangeEnd, cal.getViewName()).split('-');
+                txt = date[0] + '년 ' + date[1] + '월';
+            } else if( viewName == 'day') { //일간일정
+                date = getNavbarRange(rangeStart, rangeEnd, cal.getViewName()).split('-');
+                txt = date[0] + '년 ' +  + date[1] + '월 ' + date[2] + '일';
+            } else {    // 주간일정
+                date = getNavbarRange(rangeStart, rangeEnd, 'month').split('-');
+
+                txt = date[0] + '년 ' + date[1] + '월 ' + '' +'주차';
+            }
+            $('.navbar--range').text(txt);
+        }
+        // 이벤트 데이터 ajax
+        ,setCreateEvent : function(event){
+            $.ajax({
+                url: '/ajax/createEvent.do'
+                ,type: 'post'
+                ,contentType: 'application/json'
+                ,data: JSON.stringify(event)
+                ,success : function(res){
+                   console.log('suc------------'+ res);
+                }
+                ,error : function(res){
+                    console.log('err------------'+ res);
+                }
+            })
+        }
+
+        // 이벤트
+        ,bindEvent :function(){
+            // 달력 인스턴스 이벤트
+            cal.on({
+                beforeCreateEvent: function (event) {   // 이벤트 추가
+                    console.log('beforeCreateEvent', event);
+                    calendar.setCreateEvent(event);
+                    cal.createEvents([event]);
+                    cal.clearGridSelections();
+                }
+                ,beforeUpdateEvent: function (eventInfo) {   // 이벤트 수정
+                    var event, changes;
+                    console.log('beforeUpdateEvent', eventInfo);
+
+                    event = eventInfo.event;
+                    changes = eventInfo.changes;
+
+                    cal.updateEvent(event.id, event.calendarId, changes);
+                }
+                ,beforeDeleteEvent: function (eventInfo) {  // 이벤트 삭제
+                    console.log('beforeDeleteEvent', eventInfo);
+
+                    cal.deleteEvent(eventInfo.id, eventInfo.calendarId);
+                },
+            })
+
+            // dropdown 이벤트
+            $('.dropdown-trigger').on('click', calFunc.toggleDropdownState);
+            // dropdown contents event
+            $('.dropdown-content').on('click', function (e) {
+              var targetViewName;
+              if ('viewName' in e.target.dataset) {
+                targetViewName = e.target.dataset.viewName;
+                cal.changeView(targetViewName);
+                calFunc.toggleDropdownState();
+                calendar.updateCal();
+              }
+            });
+            //btn prev
+            $('.prev').on('click', function () {
+              cal.prev();
+              calendar.updateCal();
+            });
+            // btn next
+            $('.next').on('click', function () {
+              cal.next();
+              calendar.updateCal();
+            });
+            // btn today
+             $('.today').on('click', function () {
+              cal.today();
+              calendar.updateCal();
+            });
+            // btn 등록
+            $('.register').on('click', function () {
+                cal.openFormPopup()
+            });
+            // 체크박스 이벤트
+            $('.side').on('click', function (e) {
+              if ($(e.target).val()) {
+                if ($(e.target).val() === 'memberAll') {  // check all
+                  if (appState.activeCalendarIds.length > 0) {
+                    cal.setCalendarVisibility(appState.activeCalendarIds, false);
+                    appState.activeCalendarIds = [];
+                    calFunc.setAllCheckboxes(false);
+                  } else {
+                    appState.activeCalendarIds = MOCK_CALENDARS.map(function (calendar) {
+                      return calendar.id;
+                    });
+                    cal.setCalendarVisibility(appState.activeCalendarIds, true);
+                    calFunc.setAllCheckboxes(true);
+                  }
+                } else if (appState.activeCalendarIds.indexOf(e.target.value) > -1) {
+                  appState.activeCalendarIds.splice(appState.activeCalendarIds.indexOf(e.target.value), 1);
+                  cal.setCalendarVisibility(e.target.value, false);
+                  calFunc.setCheckboxBackgroundColor(e.target);
+                } else {
+                  appState.activeCalendarIds.push(e.target.value);
+                  cal.setCalendarVisibility(e.target.value, true);
+                  calFunc.setCheckboxBackgroundColor(e.target);
+                }
+              }
+            });
+        }
 }
-
-function bindInstanceEvents() {
-  cal.on({
-    clickMoreEventsBtn: function (btnInfo) {
-      console.log('clickMoreEventsBtn', btnInfo);
-    },
-    clickEvent: function (eventInfo) {
-      console.log('clickEvent', eventInfo);
-    },
-    clickDayName: function (dayNameInfo) {
-      console.log('clickDayName', dayNameInfo);
-    },
-    selectDateTime: function (dateTimeInfo) {
-      console.log('selectDateTime', dateTimeInfo);
-    },
-    beforeCreateEvent: function (event) {
-      console.log('beforeCreateEvent', event);
-      event.id = chance.guid();
-
-      cal.createEvents([event]);
-      cal.clearGridSelections();
-    },
-    beforeUpdateEvent: function (eventInfo) {
-      var event, changes;
-
-      console.log('beforeUpdateEvent', eventInfo);
-
-      event = eventInfo.event;
-      changes = eventInfo.changes;
-
-      cal.updateEvent(event.id, event.calendarId, changes);
-    },
-    beforeDeleteEvent: function (eventInfo) {
-      console.log('beforeDeleteEvent', eventInfo);
-
-      cal.deleteEvent(eventInfo.id, eventInfo.calendarId);
-    },
-  });
-}
-
-function initCheckbox() {
-  var checkboxes = $('input[type="checkbox"]');
-  checkboxes.each(function (indx,item) {
-    setCheckboxBackgroundColor(item);
-  });
-}
-
-function getEventTemplate(event, isAllday) {
-  var html = [];
-  var start = moment(event.start.toDate().toUTCString());
-  if (!isAllday) {
-    html.push('<strong>' + start.format('HH:mm') + '</strong> ');
-  }
-
-  if (event.isPrivate) {
-    html.push('<span class="calendar-font-icon ic-lock-b"></span>');
-    html.push(' Private');
-  } else {
-    if (event.recurrenceRule) {
-      html.push('<span class="calendar-font-icon ic-repeat-b"></span>');
-    } else if (event.attendees.length > 0) {
-      html.push('<span class="calendar-font-icon ic-user-b"></span>');
-    } else if (event.location) {
-      html.push('<span class="calendar-font-icon ic-location-b"></span>');
-    }
-    html.push(' ' + event.title);
-  }
-
-  return html.join('');
-}
-
 </script>
