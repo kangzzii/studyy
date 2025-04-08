@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import egovframework.example.category.Service.CategoryService;
 import egovframework.example.category.vo.CategoryVo;
+import egovframework.example.study.vo.StudyVo;
 import jdk.internal.org.jline.utils.Log;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,12 +48,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 */
 @Controller
 public class CategoryController {
-
+    
     Logger log = LoggerFactory.getLogger(getClass());
-
+    
     @Autowired
     CategoryService categoryService;
-
+    
     /**
     * @methodName	: getList
     * @author		: kkang
@@ -66,7 +67,7 @@ public class CategoryController {
         model.addAttribute("result", cateList);
         return "tiles/category/list";
     }
-
+    
     /**
     * @methodName	: getDetail
     * @author		: kkang
@@ -82,7 +83,7 @@ public class CategoryController {
         model.addAttribute("result", result);
         return "tiles/category/view";
     }
-
+    
     /**
     * @methodName	: registerList
     * @author		: kkang
@@ -94,8 +95,8 @@ public class CategoryController {
     public String registerList() {
         return "tiles/category/view";
     }
-
-
+    
+    
     /**
     * @methodName	: modifyDetail
     * @author		: kkang
@@ -113,12 +114,12 @@ public class CategoryController {
         } else {
             categoryService.modifyDetail(categoryVo);
         }
-
-
+        
+       
         return "redirect:/categories.do";
     }
-
-
+    
+    
     /**
     * @methodName	: deleteDetail
     * @author		: kkang

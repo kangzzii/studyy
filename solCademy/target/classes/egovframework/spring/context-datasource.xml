@@ -5,17 +5,9 @@
         http://www.springframework.org/schema/jdbc  http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd">
 	
 	<!-- 테스트 실행용 --> 
-<!-- 	<jdbc:embedded-database id="dataSource" type="HSQL"> -->
-<!-- 		<jdbc:script location= "classpath:/db/sampledb.sql"/> -->
-<!-- 	</jdbc:embedded-database> -->
-    
-    <!-- postgresql -->
-	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
-	    <property name="driverClassName" value="org.postgresql.Driver" />
-	    <property name="url" value="jdbc:postgresql://192.168.35.217:5432/sianadb" />
-	    <property name="username" value="siana_dev" />
-	    <property name="password" value="1234" />
-	</bean>
+	<jdbc:embedded-database id="dataSource" type="HSQL">
+		<jdbc:script location= "classpath:/db/sampledb.sql"/>
+	</jdbc:embedded-database>
      
      
     <!-- hsql (테스트용 메모리 DB)
@@ -43,7 +35,5 @@
         <property name="password" value="password"/>
     </bean>
     -->
-    
-    
     
 </beans>
