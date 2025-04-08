@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.treeMenu.mapper.TreeMenuMapper">
+     <resultMap id="resultVo" type="egovframework.example.treeMenu.vo.TreeMenuVo">
+        <result property="menuId" column="menu_id"></result>
+        <result property="menuNm" column="menu_nm"></result>
+        <result property="menuDesc" column="menu_desc"></result>
+        <result property="menuDepth1" column="menu_depth1"></result>
+        <result property="menuDepth2" column="menu_depth2"></result>
+        <result property="menuDepth3" column="menu_depth3"></result>
+        <result property="menuOrder" column="menu_order"></result>
+        <result property="menuUrl" column="menu_url"></result>
+        <result property="menuParam" column="menu_param"></result>
+        <result property="menuPopYn" column="menu_pop_yn"></result>
+        <result property="menuUseYn" column="menu_use_yn"></result>
+    </resultMap>
+
+    <!-- 리스트 조회 -->
+     <select id="selectList" parameterType="egovframework.example.treeMenu.vo.TreeMenuVo"  resultMap="resultVo">
+        SELECT
+            menu_id
+           , menu_nm
+           , menu_desc
+           , menu_depth1
+           , menu_depth2
+           , menu_depth3
+           , menu_order
+           , menu_url
+           , menu_param
+           , menu_pop_yn
+           , menu_use_yn
+        FROM
+            siana.menu
+        WHERE
+            1 = 1
+        ORDER BY menu_id ASC
+    </select>
+
+    <!-- 수정 조회 -->
+     <select id="selectView" resultMap="resultVo">
+        SELECT
+            menu_id
+           , menu_nm
+           , menu_desc
+           , menu_depth1
+           , menu_depth2
+           , menu_depth3
+           , menu_order
+           , menu_url
+           , menu_param
+           , menu_pop_yn
+           , menu_use_yn
+        FROM
+            siana.menu
+        WHERE
+            1 = 1
+        AND
+           menu_id = #{id}
+    </select>
+
+    <!-- 단계1 조회 -->
+    <select id="selectDepthOne"  resultType="egovframework.example.treeMenu.vo.TreeMenuVo" resultMap="resultVo">
+        SELECT
+            menu_id
+            , menu_nm
+            , menu_depth1
+        FROM
+            siana.menu
+        WHERE
+            1 = 1
+        AND menu_depth1 = 0
+    </select>
+
+    <!-- 단계 2,3 조회 -->
+    <select id="selectDepth"  parameterType="Map" resultType="egovframework.example.treeMenu.vo.TreeMenuVo" resultMap="resultVo">
+         SELECT
+            menu_id
+            , menu_nm
+            , menu_depth1
+        FROM
+            siana.menu
+        WHERE
+            1 = 1
+        AND menu_depth1 = #{depth1Id}
+        <choose>
+            <!-- 3DEPTH -->
+            <when test="depth2Id >= 0">
+                AND menu_depth2 = #{depth2Id}
+                AND menu_depth3 = 0
+            </when>
+            <!-- 2DEPTH -->
+            <otherwise>
+                 AND menu_depth2 = 0
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 등록 -->
+    <insert id="insertMenu" parameterType="egovframework.example.treeMenu.vo.TreeMenuVo" >
+        INSERT INTO
+             siana.menu (
+             menu_nm
+           , menu_desc
+           , menu_depth1
+           , menu_depth2
+           , menu_depth3
+           , menu_order
+           , menu_url
+           , menu_param
+           , menu_pop_yn
+           , menu_use_yn
+         ) VALUES (
+            #{menuNm}
+            , #{menuDesc}
+            , #{menuDepth1}
+            , #{menuDepth2}
+            , #{menuDepth3}
+            , #{menuOrder}
+            , #{menuUrl}
+            , #{menuParam}
+            , #{menuPopYn}
+            , #{menuUseYn}
+         )
+    </insert>
+
+    <!-- 수정 -->
+    <update id="updateMenu" parameterType="egovframework.example.treeMenu.vo.TreeMenuVo">
+        UPDATE
+            siana.menu
+        SET
+            menu_nm = #{menuNm}
+            , menu_desc = #{menuDesc}
+            , menu_depth1 = #{menuDepth1}
+            , menu_depth2 = #{menuDepth2}
+            , menu_depth3 = #{menuDepth3}
+            , menu_order = #{menuOrder}
+            , menu_url = #{menuUrl}
+            , menu_param = #{menuParam}
+            , menu_pop_yn = #{menuPopYn}
+            , menu_use_yn = #{menuUseYn}
+        WHERE 1=1
+        AND menu_id = #{menuId}
+    </update>
+</mapper>
