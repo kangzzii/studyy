@@ -9,7 +9,6 @@
 </head>
 <body>
 	<div id="popup">
-		 <tiles:insertAttribute name="header"/>
 		 <div class="inner">
 			 <tiles:insertAttribute name="body"/>
 		 </div>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.code.mapper.CodeMapper">
+    <resultMap id="groupCodeVo" type="egovframework.example.code.vo.CodeGroupVo">
+        <result property="groupCodeId" column="group_code_id"></result>
+        <result property="groupCodeNm" column="group_code_nm"></result>
+        <result property="groupCodeSeq" column="group_code_id_seq"></result>
+    </resultMap>
+
+    <resultMap id="commonCodeVo" type="egovframework.example.code.vo.CodeCommonVo">
+        <result property="commonCodeId" column="common_code_id"></result>
+        <result property="groupCodeId" column="group_code_id"></result>
+        <result property="commonCodeNm" column="common_code_nm"></result>
+        <result property="groupCodeNm" column="group_code_nm"></result>
+    </resultMap>
+
+    <!-- 그룹코드 리스트 -->
+    <select id="selectGroupList" resultMap="groupCodeVo">
+        SELECT
+            group_code_id
+            ,group_code_nm
+        FROM
+            siana.group_code
+    </select>
+
+    <!-- 공통 코드 리스트 조회 -->
+    <select id="selectCommonList" parameterType="String" resultMap="commonCodeVo">
+        SELECT
+             cc.group_code_id
+            ,group_code_nm
+            ,common_code_id
+            ,common_code_nm
+        FROM
+            siana.common_code cc
+        LEFT JOIN siana.group_code gc
+            ON cc.group_code_id = gc.group_code_id
+        WHERE 1=1
+            AND cc.group_code_id = #{id}
+    </select>
+
+    <!-- 그룹 코드 등록 -->
+    <insert id="insertGroupCode"  parameterType="egovframework.example.code.vo.CodeGroupVo">
+        <selectKey keyProperty="groupCodeSeq" resultType="int" order="BEFORE">
+            SELECT nextval('siana.group_code_id_seq')
+        </selectKey>
+       <!--  <bind name="groupCodeId" value="'G00'+groupCodeSeq"/> -->
+        INSERT INTO siana.group_code (
+            group_code_id
+            ,group_code_nm
+        )
+        VALUES(
+            <!--  #{groupCodeId} -->
+            'G'||LPAD(#{groupCodeSeq}::text,3,'0')
+            ,#{groupCodeNm}
+        )
+    </insert>
+
+    <!-- 공통코드 등록 -->
+    <insert id="insertCommonCode"  parameterType="egovframework.example.code.vo.CodeCommonVo">
+        INSERT INTO  siana.common_code(
+            common_code_id
+            ,group_code_id
+            ,common_code_nm
+        ) VALUES (
+            LPAD(#{commonCodeId},8,#{groupCodeId})
+            ,#{groupCodeId}
+            ,#{commonCodeNm}
+        )
+    </insert>
+
+    <select id="countCommonCode" parameterType="egovframework.example.code.vo.CodeCommonVo">
+        SELECT
+            COUNT(*)
+        FROM  siana.common_code
+        WHERE 1=1
+            AND common_code_id = LPAD(#{commonCodeId},8,#{groupCodeId})
+    </select>
+</mapper>

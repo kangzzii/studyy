@@ -27,6 +27,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class CalendarController {
 
+    @GetMapping("/popup.do")
+    public String popupDo() {
+        return "popup/test/test";
+    }
+
     Logger log = LoggerFactory.getLogger(getClass());
 
     /**
