@@ -9,14 +9,14 @@
 * -----------------------------------------------------------
 * 2025.04.09        kkang       최초 생성
 */
-package egovframework.example.code.mapper;
+package egovframework.example.bbs.mapper;
 
 import java.util.List;
 
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
-import egovframework.example.code.vo.CodeCommonVo;
-import egovframework.example.code.vo.CodeGroupVo;
+import egovframework.example.bbs.vo.CodeCommonVo;
+import egovframework.example.bbs.vo.CodeGroupVo;
 
 @Mapper
 public interface CodeMapper {
@@ -57,5 +57,13 @@ public interface CodeMapper {
     */
     void insertCommonCode(CodeCommonVo codeCommonVo);
 
+    /**
+    * @methodName	: countCommonCode
+    * @author		: kkang
+    * @desc			: 공통코드 등록시 아이디 체크
+    * @date			: 2025.04.10
+    * @param codeCommonVo
+    * @return
+    */
     int countCommonCode(CodeCommonVo codeCommonVo);
 }

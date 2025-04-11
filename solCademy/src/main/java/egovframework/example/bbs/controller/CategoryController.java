@@ -10,7 +10,7 @@
 * 2025.04.01        kkang       최초 생성
 */
 
-package egovframework.example.category.Controller;
+package egovframework.example.bbs.controller;
 
 import java.util.List;
 
@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import egovframework.example.category.Service.CategoryService;
-import egovframework.example.category.vo.CategoryVo;
+import egovframework.example.bbs.service.CategoryService;
+import egovframework.example.bbs.vo.CategoryVo;
 import jdk.internal.org.jline.utils.Log;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -107,8 +107,8 @@ public class CategoryController {
     @PostMapping("/categories/form.do")
     public String actionDetail (@ModelAttribute("categoryVo") CategoryVo categoryVo) {
 
-        String Category_nm = categoryVo.getCategory_nm();
-        if(categoryVo.getCategory_id() == 0) {
+        String Category_nm = categoryVo.getCategoryNm();
+        if(categoryVo.getCategoryId() == 0) {
             categoryService.registerDetail(Category_nm);
         } else {
             categoryService.modifyDetail(categoryVo);

@@ -9,13 +9,13 @@
 * -----------------------------------------------------------
 * 2025.04.01        kkang       최초 생성
 */
-package egovframework.example.category.mapper;
+package egovframework.example.bbs.mapper;
 
 import java.util.List;
 
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
-import egovframework.example.category.vo.CategoryVo;
+import egovframework.example.bbs.vo.CategoryVo;
 
 @Mapper
 public interface CategoryMapper {

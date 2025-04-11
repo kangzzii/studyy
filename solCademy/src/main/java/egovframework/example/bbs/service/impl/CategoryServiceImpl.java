@@ -9,16 +9,16 @@
 * -----------------------------------------------------------
 * 2025.04.01        kkang       최초 생성
 */
-package egovframework.example.category.Service.impl;
+package egovframework.example.bbs.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import egovframework.example.category.Service.CategoryService;
-import egovframework.example.category.mapper.CategoryMapper;
-import egovframework.example.category.vo.CategoryVo;
+import egovframework.example.bbs.mapper.CategoryMapper;
+import egovframework.example.bbs.service.CategoryService;
+import egovframework.example.bbs.vo.CategoryVo;
 
 @Service
 public class CategoryServiceImpl implements CategoryService{

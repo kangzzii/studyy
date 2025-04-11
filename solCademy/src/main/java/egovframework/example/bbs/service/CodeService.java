@@ -9,12 +9,12 @@
 * -----------------------------------------------------------
 * 2025.04.09        kkang       최초 생성
 */
-package egovframework.example.code.service;
+package egovframework.example.bbs.service;
 
 import java.util.List;
 
-import egovframework.example.code.vo.CodeCommonVo;
-import egovframework.example.code.vo.CodeGroupVo;
+import egovframework.example.bbs.vo.CodeCommonVo;
+import egovframework.example.bbs.vo.CodeGroupVo;
 
 public interface CodeService {
 

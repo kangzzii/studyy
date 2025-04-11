@@ -9,11 +9,11 @@
 * -----------------------------------------------------------
 * 2025.04.01        kkang       최초 생성
 */
-package egovframework.example.category.Service;
+package egovframework.example.bbs.service;
 
 import java.util.List;
 
-import egovframework.example.category.vo.CategoryVo;
+import egovframework.example.bbs.vo.CategoryVo;
 
 public interface CategoryService {
     // 리스트 조회

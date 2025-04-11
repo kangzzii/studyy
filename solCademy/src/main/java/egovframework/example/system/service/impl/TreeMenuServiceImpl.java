@@ -9,7 +9,7 @@
 * -----------------------------------------------------------
 * 2025.04.04        kkang       최초 생성
 */
-package egovframework.example.treeMenu.service.impl;
+package egovframework.example.system.service.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -19,9 +19,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import egovframework.example.treeMenu.mapper.TreeMenuMapper;
-import egovframework.example.treeMenu.service.TreeMenuService;
-import egovframework.example.treeMenu.vo.TreeMenuVo;
+import egovframework.example.system.mapper.TreeMenuMapper;
+import egovframework.example.system.service.TreeMenuService;
+import egovframework.example.system.vo.TreeMenuVo;
 
 @Service
 public class TreeMenuServiceImpl implements TreeMenuService {

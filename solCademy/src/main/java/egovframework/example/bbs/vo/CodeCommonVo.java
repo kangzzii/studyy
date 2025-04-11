@@ -9,7 +9,7 @@
 * -----------------------------------------------------------
 * 2025.04.09        kkang       최초 생성
 */
-package egovframework.example.code.vo;
+package egovframework.example.bbs.vo;
 
 public class CodeCommonVo {
 

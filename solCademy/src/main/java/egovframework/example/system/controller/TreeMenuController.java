@@ -9,7 +9,7 @@
 * -----------------------------------------------------------
 * 2025.04.04        kkang       최초 생성
 */
-package egovframework.example.treeMenu.controller;
+package egovframework.example.system.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,8 +34,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
-import egovframework.example.treeMenu.service.TreeMenuService;
-import egovframework.example.treeMenu.vo.TreeMenuVo;
+import egovframework.example.system.service.TreeMenuService;
+import egovframework.example.system.vo.TreeMenuVo;
 
 
 @Controller

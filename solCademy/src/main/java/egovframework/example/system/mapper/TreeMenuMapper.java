@@ -9,14 +9,14 @@
 * -----------------------------------------------------------
 * 2025.04.04        kkang       최초 생성
 */
-package egovframework.example.treeMenu.mapper;
+package egovframework.example.system.mapper;
 
 import java.util.List;
 import java.util.Map;
 
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
-import egovframework.example.treeMenu.vo.TreeMenuVo;
+import egovframework.example.system.vo.TreeMenuVo;
 
 @Mapper
 public interface TreeMenuMapper {

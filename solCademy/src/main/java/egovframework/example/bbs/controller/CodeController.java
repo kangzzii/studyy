@@ -9,7 +9,7 @@
 * -----------------------------------------------------------
 * 2025.04.09        kkang       최초 생성
 */
-package egovframework.example.code.controller;
+package egovframework.example.bbs.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,9 +32,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
-import egovframework.example.code.service.CodeService;
-import egovframework.example.code.vo.CodeCommonVo;
-import egovframework.example.code.vo.CodeGroupVo;
+import egovframework.example.bbs.service.CodeService;
+import egovframework.example.bbs.vo.CodeCommonVo;
+import egovframework.example.bbs.vo.CodeGroupVo;
 
 @Controller
 @RequestMapping("/code")

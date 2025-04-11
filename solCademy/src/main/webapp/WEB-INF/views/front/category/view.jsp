@@ -8,11 +8,11 @@
 </style>
 <div>
     <form action="/categories/form.do" method="post">
-        <c:if test="${result.category_id == null}">
+        <c:if test="${result.categoryId == null}">
             <input type="hidden" name="category_id" id="category_id" value="0">
         </c:if>
-        <c:if test="${result.category_id != null}">
-            <input type="hidden" name="category_id" id="category_id" value="${result.category_id}">
+        <c:if test="${result.categoryId != null}">
+            <input type="hidden" name="category_id" id="category_id" value="${result.categoryId}">
         </c:if>
         <table>
             <colgroup>
@@ -23,12 +23,12 @@
                 <tr>
                     <th scope="col">카테고리</th>
                     <td scope="col">
-                        <input type="text" name="category_nm" value="${result.category_nm}">
+                        <input type="text" name="category_nm" value="${result.categoryNm}">
                     </td>
                 </tr>
             </tbody>
         </table>
-        <button type="button" onclick="location.href='/categories/delete/${result.category_id}.do'">삭제</button>
+        <button type="button" onclick="location.href='/categories/delete/${result.categoryId}.do'">삭제</button>
         <button type="submit" id="btnSubmit">수정</button>
         <button type="button"  onclick="location.href='/categories.do'">목록</button>
     </form>

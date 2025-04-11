@@ -9,7 +9,7 @@
 * -----------------------------------------------------------
 * 2025.04.03        kkang       최초 생성
 */
-package egovframework.example.calendar.controller;
+package egovframework.example.bbs.controller;
 
 import java.util.Map;
 

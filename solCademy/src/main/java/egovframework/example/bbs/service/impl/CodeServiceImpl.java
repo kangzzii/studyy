@@ -9,7 +9,7 @@
 * -----------------------------------------------------------
 * 2025.04.09        kkang       최초 생성
 */
-package egovframework.example.code.service.impl;
+package egovframework.example.bbs.service.impl;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import egovframework.example.code.mapper.CodeMapper;
-import egovframework.example.code.service.CodeService;
-import egovframework.example.code.vo.CodeCommonVo;
-import egovframework.example.code.vo.CodeGroupVo;
+import egovframework.example.bbs.mapper.CodeMapper;
+import egovframework.example.bbs.service.CodeService;
+import egovframework.example.bbs.vo.CodeCommonVo;
+import egovframework.example.bbs.vo.CodeGroupVo;
 
 @Service
 public class CodeServiceImpl implements CodeService{

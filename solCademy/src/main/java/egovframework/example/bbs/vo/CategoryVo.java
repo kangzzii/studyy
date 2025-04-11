@@ -9,22 +9,23 @@
 * -----------------------------------------------------------
 * 2025.04.01        kkang       최초 생성
 */
-package egovframework.example.category.vo;
+package egovframework.example.bbs.vo;
 public class CategoryVo {
 
-    private int category_id;
-    private String category_nm;
-    public int getCategory_id() {
-        return category_id;
+    private int categoryId;
+    private String categoryNm;
+    public int getCategoryId() {
+        return categoryId;
     }
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
-    public String getCategory_nm() {
-        return category_nm;
+    public String getCategoryNm() {
+        return categoryNm;
     }
-    public void setCategory_nm(String category_nm) {
-        this.category_nm = category_nm;
+    public void setCategoryNm(String categoryNm) {
+        this.categoryNm = categoryNm;
     }
-    
+
+
 }

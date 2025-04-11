@@ -21,8 +21,8 @@
         <tbody>
         <c:forEach var="result" items="${result}">
             <tr >
-                <td>${result.category_id}</td>
-                <td><a href="/categories/${result.category_id}.do">${result.category_nm}</a></td>
+                <td>${result.categoryId}</td>
+                <td><a href="/categories/${result.categoryId}.do">${result.categoryNm}</a></td>
             </tr>
         </c:forEach>
         </tbody>

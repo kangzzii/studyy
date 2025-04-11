@@ -9,12 +9,12 @@
 * -----------------------------------------------------------
 * 2025.04.04        kkang       최초 생성
 */
-package egovframework.example.treeMenu.service;
+package egovframework.example.system.service;
 
 import java.util.List;
 import java.util.Map;
 
-import egovframework.example.treeMenu.vo.TreeMenuVo;
+import egovframework.example.system.vo.TreeMenuVo;
 
 public interface TreeMenuService {
 

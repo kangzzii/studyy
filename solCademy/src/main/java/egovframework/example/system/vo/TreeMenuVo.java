@@ -9,7 +9,7 @@
 * -----------------------------------------------------------
 * 2025.04.04        kkang       최초 생성
 */
-package egovframework.example.treeMenu.vo;
+package egovframework.example.system.vo;
 
 public class TreeMenuVo {
     private int menuId;
