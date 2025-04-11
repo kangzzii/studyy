@@ -39,7 +39,7 @@ import egovframework.example.system.vo.TreeMenuVo;
 
 
 @Controller
-@RequestMapping("/menu")
+@RequestMapping("/system/menu")
 public class TreeMenuController {
 
     Logger log = LoggerFactory.getLogger(getClass());
@@ -144,7 +144,7 @@ public class TreeMenuController {
         } else {
             treeMenuService.registMenu(param);
         }
-        return "redirect:/menu/list.do";
+        return "redirect:/system/menu/list.do";
     }
 
     /**
@@ -164,7 +164,7 @@ public class TreeMenuController {
             treeMenuVo.setMenuId(id);
             treeMenuService.editMenu(treeMenuVo);
         }
-        return "redirect:/menu/list.do";
+        return "redirect:/system/menu/list.do";
     }
 
 

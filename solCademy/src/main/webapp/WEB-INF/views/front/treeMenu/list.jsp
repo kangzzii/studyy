@@ -11,59 +11,7 @@
             height: 100%;
             min-height: 500px;
         }
-        .treemenu > ul > li { list-style: circle; }
-        .treemenu > ul > li > ul,
-        .treemenu > ul > li > ul  > li > ul  { margin-left: 20px; list-style: disc;}
-        .treemenu li { margin-top: 10px; }
     </style>
-    <script>
-    $(function(){
-
-        // 전체 리스트
-        var treeList = ${treeList};
-        // 1뎁스 리스트
-        var depth1arr = treeList.filter(i => i.menuDepth1 == 0);
-        for (let i=0; i<depth1arr.length; i++){
-            // 2뎁스 그리기
-            let depth1Id = depth1arr[i].menuId;
-            let depth2Txt = makeDepth2(depth1Id);
-            // 1뎁스 그리는거
-            $('.treemenu > ul').append('<li>'+ depth1arr[i].menuNm + depth2Txt +'</li>')
-
-        }
-
-        // 2뎁스 리스트 만드는 function
-        function makeDepth2 (indx){
-            let depth2Arr = treeList.filter(i => i.menuDepth1 == indx && i.menuDepth2 == 0);
-            let txt = '';
-            txt += '<ul>'
-            for(let i=0; i<depth2Arr.length; i++){
-                // 3뎁스 값
-                let depth2Id = depth2Arr[i].menuId;
-                let depth3Txt = makeDepth3(indx,depth2Id);
-                // 2뎁스 그리기
-                txt += '<li>'+ depth2Arr[i].menuNm + depth3Txt +'</li>';
-            }
-            txt += '</ul>'
-            return txt;
-        }
-
-        // 3뎁스 리스트 만드는 function
-        function makeDepth3 (indx, depth2Id){
-            let depth3Arr = treeList.filter(i => i.menuDepth1 == indx && i.menuDepth2 == depth2Id && i.menuDepth3 == 0);
-
-            let txt = '';
-            txt += '<ul>'
-            for(let i=0; i<depth3Arr.length; i++){
-                txt += '<li>'+depth3Arr[i].menuNm+'</li>';
-            }
-            txt += '</ul>'
-            return txt;
-        }
-
-    })
-
-    </script>
     <div style="display: flex; gap: 0 20px;">
         <div class="treemenu">
             <ul>
@@ -96,7 +44,7 @@
             </thead>
             <tbody>
             <c:forEach var="result" items="${resultList}">
-              <tr onclick="location.href='/menu/form/${result.menuId}.do'">
+              <tr onclick="location.href='/system/menu/form/${result.menuId}.do'">
                 <td>${result.menuId}</td>
                 <td>${result.menuNm}</td>
                 <td>${result.menuDesc}</td>
@@ -109,7 +57,7 @@
               </tr>
             </c:forEach>
                 <tr>
-                <td colspan="9"><button type="button" onclick="location.href='/menu/form.do'">등록</button></td>
+                <td colspan="9"><button type="button" onclick="location.href='/system/menu/form.do'">등록</button></td>
                 </tr>
             </tbody>
         </table>

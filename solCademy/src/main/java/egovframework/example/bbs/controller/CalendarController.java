@@ -25,12 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
+@RequestMapping("/calendar")
 public class CalendarController {
-
-    @GetMapping("/popup.do")
-    public String popupDo() {
-        return "popup/test/test";
-    }
 
     Logger log = LoggerFactory.getLogger(getClass());
 
@@ -41,7 +37,7 @@ public class CalendarController {
     * @date			: 2025.04.03
     * @return
     */
-    @GetMapping(value="/calendar.do")
+    @GetMapping(value="/tuiExample.do")
     public String calendar() {
         return "calendar/calendar/main";
     }

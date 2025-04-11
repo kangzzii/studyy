@@ -37,7 +37,7 @@
 </body>
 <script>
 	$.ajax({
-		url : "ajaxView.do"
+		url : "/assignment/ajaxView.do"
 		,type : 'post'
 		,success : function(data) {
    			 initList(data);
@@ -46,7 +46,7 @@
 			alert("error");
 		}
 	});
-	
+
 	function initList(data){
 		var txt = '';
 		for(let i=0;i < data.length;i++){

@@ -39,7 +39,7 @@ var menuForm = {
                depth2Id = -1;
            }
            $.ajax({
-                url: '/menu/getDepth.do'
+                url: '/system/menu/getDepth.do'
                 ,type: 'post'
                 ,async: false
                 ,data: {id1: depth1Id, id2: depth2Id}
@@ -90,7 +90,7 @@ var menuForm = {
                 // 수정일때
                 if($('#editId').val() !=''){
                     let elId = $('#editId').val();
-                    $('#menuForm').attr('action','/menu/form/' + elId +'.do')
+                    $('#menuForm').attr('action','/system/menu/form/' + elId +'.do')
                 }
                 $('#menuForm').submit();
             }
@@ -171,7 +171,7 @@ var menuForm = {
           </td>
         </tr>
       </table>
-      <button type="button" onclick="location.href='/menu/list.do'">목록</button>
+      <button type="button" onclick="location.href='/system/menu/list.do'">목록</button>
       <button type="button" id="btnSubmit" onclick="menuForm.menuAction()">등록</button>
   </form>
 

@@ -188,7 +188,7 @@ var calendar = {
         // 이벤트 데이터 ajax
         ,setCreateEvent : function(event){
             $.ajax({
-                url: '/ajax/createEvent.do'
+                url: '/calendar/ajax/createEvent.do'
                 ,type: 'post'
                 ,contentType: 'application/json'
                 ,data: JSON.stringify(event)

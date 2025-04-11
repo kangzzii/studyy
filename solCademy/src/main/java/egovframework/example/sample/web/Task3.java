@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequestMapping("/assignment")
 public class Task3 {
-	
+
 	// 가짜 데이터
 	String[] nameArr = {"테스트1","테스트2", "테스트3", "테스트4", "테스트5", "테스트6", "테스트7", "테스트8", "테스트9", "테스트10"};
     int[] ageArr = {10,30,24,25,36,68,89,33,2,14};
@@ -28,25 +29,25 @@ public class Task3 {
 		}
 		return userList;
 	}
-	
+
 	// 메소드 2
-	@GetMapping("/viewList.do")
+	@GetMapping(value= {"/first/list.do" , "/list.do","/second/list.do"})
 	public String viewList(Model model) {
 		model.addAttribute("userList", makeList());
 		return "tiles/task/list";
 	}
 
-	@GetMapping("/ajaxViewList.do")
+	@GetMapping("/second/ajaxList.do")
 	public String ajaxViewList() {
 		return "tiles/task/ajaxList";
 	}
-	
+
 	@RequestMapping(value="/ajaxView.do", method=RequestMethod.POST)
 	@ResponseBody
 	public List<Task3Data> ajaxView() {
 	    return makeList();
 	}
-	
-	
-	
+
+
+
 }
