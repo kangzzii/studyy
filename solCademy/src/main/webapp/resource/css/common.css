@@ -68,16 +68,16 @@ header, footer {
 	background: #333;
 	display: flex;
     align-items: center;
-    justify-content: center;
 }
-
-header .btnSidebar {
+header {
+    justify-content: flex-end;
+    gap: 0 20px;
+}
+header > a {
 	display: inline-block;
 	padding: 5px 10px;
 	background: #f1f1f1;
 	color: #000;
-	position: absolute;
-	right: 20px;
 }
 
 nav {
@@ -127,6 +127,52 @@ nav ul li {
 	border-bottom: 1px solid #000;
 	font-size: 16px;
 	font-weight: 700;
+}
+/* login */
+.login-box {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 100px auto;
+}
+.login-box li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.login-box li a {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    background: #999;
+    color: #fff;
+    font-weight: 600;
+}
+.login-box li a.btnSubmit {
+   background: #000;
+}
+.login-box li > p { width: 80px; }
+.login-box li > input,
+.login-box li > select {
+    width: 200px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    height: 30px;
+}
+.login-box li > select {
+    text-align: right;
+    padding-right: 20px;
+}
+.login-box li:first-child {
+    display: block;
+    margin: 15px 0;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 700;
 }
 
 .treemenu > ul { margin-left: 20px;list-style: circle; }
