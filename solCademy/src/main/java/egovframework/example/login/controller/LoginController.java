@@ -102,9 +102,12 @@ public class LoginController {
     public Map<String, String> Dologin(@ModelAttribute UserVo userVo, HttpSession session){
         String userLogin = userService.doLogin(userVo);
         Map<String, String> result = new HashMap<String, String>();
+        log.info("---------------------------{}", userLogin);
         if(userLogin.equals("success")) {
             result.put("status", "success");
             session.setAttribute("userId", userVo.getUserId());
+        } else if(userLogin.equals("loginFailFullCnt")){    // 3번 이상 비밀번호 오류시
+            result.put("status", "loginFailFullCnt");
         } else {
             result.put("status", "error");
         }
@@ -120,7 +123,7 @@ public class LoginController {
     * @return
     */
     @GetMapping("/logout.do")
-    public String logout(HttpSession session, RedirectAttributes redirectAttr) {
+    public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/loginForm.do";
     }

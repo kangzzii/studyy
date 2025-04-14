@@ -34,8 +34,8 @@ public class TreeMenuServiceImpl implements TreeMenuService {
      *  리스트 출력
      */
     @Override
-    public List<TreeMenuVo> getList(TreeMenuVo treeMenuVo) {
-        return treeMenuMapper.selectList(treeMenuVo);
+    public List<TreeMenuVo> getList() {
+        return treeMenuMapper.selectList();
     }
 
     @Override

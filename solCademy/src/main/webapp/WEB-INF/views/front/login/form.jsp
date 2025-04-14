@@ -28,6 +28,8 @@ var login = {
                     if(res.status == 'success'){
                         //성공
                         location.href='/main.do';
+                    } else if (res.status == 'loginFailFullCnt'){
+                        alert("3번 틀렸습니다, 비밀번호 재설정하숑")
                     } else {
                         alert("에러지롱")
                     }

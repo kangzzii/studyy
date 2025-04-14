@@ -19,7 +19,7 @@ import egovframework.example.system.vo.TreeMenuVo;
 public interface TreeMenuService {
 
     // 리스트 출력
-    List<TreeMenuVo> getList(TreeMenuVo treeMenuVo);
+    List<TreeMenuVo> getList();
 
     //단계1 출력
     List<TreeMenuVo> getDepthOne();

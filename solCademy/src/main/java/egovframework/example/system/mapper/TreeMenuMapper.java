@@ -21,7 +21,7 @@ import egovframework.example.system.vo.TreeMenuVo;
 @Mapper
 public interface TreeMenuMapper {
     // 리스트 출력
-    List<TreeMenuVo> selectList(TreeMenuVo treeMenuVo);
+    List<TreeMenuVo> selectList();
 
     // 수정 출력
     TreeMenuVo selectView(int id);

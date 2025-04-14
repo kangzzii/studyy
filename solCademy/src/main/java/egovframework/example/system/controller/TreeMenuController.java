@@ -56,7 +56,7 @@ public class TreeMenuController {
     */
     @GetMapping("/list.do")
     public String getList(Model model, TreeMenuVo treeMenuVo) {
-        List<TreeMenuVo> result = treeMenuService.getList(treeMenuVo);
+        List<TreeMenuVo> result = treeMenuService.getList();
         model.addAttribute("resultList", result);
         // 트리 그리는 데이터
 //        ObjectMapper objectMapper = new ObjectMapper();

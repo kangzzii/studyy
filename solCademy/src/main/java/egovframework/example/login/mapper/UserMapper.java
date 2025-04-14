@@ -38,5 +38,31 @@ public interface UserMapper {
     */
     int selectFindId(String id);
 
-    Map<String, String> selectLoginUserInfo(String id);
+    /**
+    * @methodName	: selectLoginUserInfo
+    * @author		: kkang
+    * @desc			: 로그인 정보 조회
+    * @date			: 2025.04.14
+    * @param id
+    * @return
+    */
+    Map<String, UserVo> selectLoginUserInfo(String id);
+
+    /**
+    * @methodName	: updateLastLoginDate
+    * @author		: kkang
+    * @desc			: 최근 접속 로그인 일자 업데이트
+    * @date			: 2025.04.14
+    * @param id
+    */
+    void updateLastLoginDate(String id);
+
+    /**
+    * @methodName	: updatefailLoginCnt
+    * @author		: kkang
+    * @desc			: 로그인 실패 카운트 업데이트
+    * @date			: 2025.04.14
+    * @param id
+    */
+    void updatefailLoginCnt(String id);
 }
