@@ -29,7 +29,7 @@ var login = {
                         //성공
                         location.href='/main.do';
                     } else if (res.status == 'loginFailFullCnt'){
-                        alert("3번 틀렸습니다, 비밀번호 재설정하숑")
+                        alert("3번 틀렸습니다,관리자에게 문의하숑")
                     } else {
                         alert("에러지롱")
                     }

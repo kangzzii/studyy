@@ -52,25 +52,32 @@ public class UserServiceImpl implements UserService {
     /**
      *  로그인
      */
+
+    // 1트 -> failCnt : 0
+    // 2트 -> failCnt : 1
+    // 3트 -> failCnt : 2
+
     @Override
     public String doLogin(UserVo userVo) {
         String userId = userVo.getUserId();
         String userPw = userVo.getUserPw();
         Map<String, ?> userInfo = userMapper.selectLoginUserInfo(userId);
-        if(userInfo != null ) { // 해당 아이디가 있을때
+        int failCnt = (int) userInfo.get("login_fail_cnt");
+        if(userInfo != null && failCnt <=2) { // 해당 아이디가 있을때
             if(!encoder.matches(userPw, String.valueOf(userInfo.get("user_pw")))) {
                 // 비밀번호가 틀렸을때
                 userMapper.updatefailLoginCnt(userId);  // 로그인 실패 이력 +1
-                int failCnt = (int) userInfo.get("login_fail_cnt");
-                if(failCnt > 1) {
-                    return "loginFailFullCnt";  // 비밀번호 3회 이상 오류
-                } else {
-                    return "error"; // 비밀번호 틀림
+                if(failCnt == 2) {  // 3회차
+                    return "loginFailFullCnt";
+                } else {    // 일반회차
+                    return "error";
                 }
             } else {    // 로그인 성공
                 userMapper.updateLastLoginDate(userId); // 최근 접속 로그인 일자 업데이트
                 return "success";
             }
+        } else if( failCnt > 2) {
+            return "loginFailFullCnt";  // 비밀번호 3회 이상 오류
         } else {    // 아이디 없음 에러!
             return "error";
         }
