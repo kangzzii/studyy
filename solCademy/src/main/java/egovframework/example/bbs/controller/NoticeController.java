@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 import egovframework.example.bbs.service.NoticeService;
+import egovframework.example.bbs.vo.BbsDefaultVo;
 import egovframework.example.bbs.vo.NoticeVo;
 
 @Controller
@@ -63,7 +64,6 @@ public class NoticeController {
     @PostMapping("/list.do")
     @ResponseBody
     public Object changeList(@RequestParam int numb) {
-
         List<NoticeVo> result = noticeService.getList(numb);
         Gson gson = new Gson();
         return gson.toJson(result);

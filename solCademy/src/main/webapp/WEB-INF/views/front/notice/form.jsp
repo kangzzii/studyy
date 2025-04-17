@@ -37,7 +37,12 @@ var formData = {
             let dispYnVal= $('#noticeDispYnHidden').val();
             let ynVal= $('#noticeYnHidden').val();
             let useYnVal= $('#noticeUseYnHidden').val();
-//             $('#noticeDispYn').val(dispYnVal);
+            let typeVal = $('#noticeTypeHidden').val();
+            $('#noticeType option').each(function(){
+                if($(this).val()== typeVal) {
+                    $(this).prop('selected',true);
+                }
+            })
             $('#noticeDispYn option').each(function(){
                 if($(this).val()== dispYnVal) {
                     $(this).prop('selected',true);
@@ -107,6 +112,7 @@ var formData = {
 }
 </script>
     <!-- 수정 데이터 -->
+    <input type="hidden" name="noticeTypeHidden" id="noticeTypeHidden" value="${result.notice_type}">
     <input type="hidden" name="noticeDispYnHidden" id="noticeDispYnHidden" value="${result.notice_disp_yn}">
     <input type="hidden" name="noticeYnHidden" id="noticeYnHidden" value="${result.notice_disp_yn}">
     <input type="hidden" name="noticeUseYnHidden" id="noticeUseYnHidden" value="${result.notice_use_yn}">
