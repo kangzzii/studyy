@@ -138,9 +138,9 @@ var formData = {
                     <!-- 수정 -->
                     <td colspan="3">
                         <select name="noticeType" id="noticeType">
-                            <option value="C001">C001</option>
-                            <option value="C002">C002</option>
-                            <option value="C003">C003</option>
+                            <option value="G001C001">G001C001</option>
+                            <option value="G001C002">G001C002</option>
+                            <option value="G001C003">G001C003</option>
                         </select>
                     </td>
                     <th>조회수</th>
@@ -150,9 +150,9 @@ var formData = {
                         <!-- 등록 -->
                         <td colspan="5">
                             <select name="noticeType" id="noticeType">
-                                <option value="C001">C001</option>
-                                <option value="C002">C002</option>
-                                <option value="C003">C003</option>
+                                <option value="G001C001">G001C001</option>
+                                <option value="G001C002">G001C002</option>
+                                <option value="G001C003">G001C003</option>
                             </select>
                         </td>
                     </c:otherwise>

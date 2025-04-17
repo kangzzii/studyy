@@ -55,6 +55,10 @@
             ,notice_disp_yn
             ,notice_yn
             ,notice_use_yn
+            ,cret_user_id
+            ,mod_user_id
+            ,cret_dt
+            ,mod_dt
         ) VALUES (
             #{noticeType}
             ,#{noticeTitle}
@@ -63,6 +67,10 @@
             ,#{noticeDispYn}
             ,#{noticeYn}
             ,#{noticeUseYn}
+            ,#{cretUserId}
+            ,#{modUserId}
+            ,NOW()
+            ,NOW()
         )
     </insert>
     <update id="updateForm" parameterType="map">
@@ -75,6 +83,8 @@
             ,notice_disp_yn = #{noticeDispYn}
             ,notice_yn = #{noticeYn}
             ,notice_use_yn = #{noticeUseYn}
+            ,mod_user_id = #{modUserId}
+            ,mod_dt = NOW()
         WHERE 1=1
         AND notice_id = #{noticeId};
     </update>

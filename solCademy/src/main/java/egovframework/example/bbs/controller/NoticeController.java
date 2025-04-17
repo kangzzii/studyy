@@ -106,6 +106,9 @@ public class NoticeController {
     */
     @PostMapping("/form.do")
     public String registForm(@RequestParam Map<String, Object> param, HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        param.put("cretUserId", userId);
+        param.put("modUserId", userId);
         noticeService.registForm(param);
         return "redirect:/bbs/notice/list.do";
     }
@@ -120,7 +123,9 @@ public class NoticeController {
     * @return
     */
     @PostMapping("/form/{id}.do")
-    public String updateForm(@PathVariable int id, @RequestParam Map<String, Object> param) {
+    public String updateForm(@PathVariable int id, @RequestParam Map<String, Object> param, HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        param.put("modUserId", userId);
         noticeService.updateForm(param);
         return "redirect:/bbs/notice/list.do";
     }
