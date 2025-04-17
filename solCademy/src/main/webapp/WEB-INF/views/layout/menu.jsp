@@ -65,5 +65,7 @@ $(function(){
 </script>
 <nav class="treemenu">
 	<ul>
+        <li><a href="/code/list.do">코드관리</a></li>
+
 	</ul>
 </nav>

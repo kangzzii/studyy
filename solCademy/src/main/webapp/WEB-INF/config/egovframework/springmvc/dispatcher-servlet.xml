@@ -89,5 +89,8 @@
     </bean>
 	<!-- /For Pagination Tag -->
 
+    <!-- file -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
     <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
 </beans>

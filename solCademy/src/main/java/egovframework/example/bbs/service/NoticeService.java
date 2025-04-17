@@ -12,6 +12,7 @@
 package egovframework.example.bbs.service;
 
 import java.util.List;
+import java.util.Map;
 
 import egovframework.example.bbs.vo.NoticeVo;
 
@@ -24,5 +25,32 @@ public interface NoticeService {
     * @date			: 2025.04.14
     * @return
     */
-    List<NoticeVo> getList();
+    List<NoticeVo> getList(int numb);
+
+    /**
+    * @methodName	: getForm
+    * @author		: kkang
+    * @desc			: 글 상세 불러오기(수정페이지)
+    * @date			: 2025.04.15
+    * @param id
+    * @return
+    */
+    Map<String, Object> getForm(int id);
+
+    /**
+    * @methodName	: registForm
+    * @author		: kkang
+    * @desc			: 등록
+    * @date			: 2025.04.15
+    * @param param
+    */
+    void registForm(Map<String, Object> param);
+    /**
+    * @methodName	: updateForm
+    * @author		: kkang
+    * @desc			: 수정
+    * @date			: 2025.04.15
+    * @param param
+    */
+    void updateForm(Map<String, Object> param);
 }

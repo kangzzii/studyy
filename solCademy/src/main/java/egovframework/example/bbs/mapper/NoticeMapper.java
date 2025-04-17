@@ -12,6 +12,7 @@
 package egovframework.example.bbs.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
@@ -27,5 +28,35 @@ public interface NoticeMapper {
     * @date			: 2025.04.14
     * @return
     */
-    List<NoticeVo> selectList();
+    List<NoticeVo> selectList(int numb);
+
+    /**
+    * @methodName	: updateHit
+    * @author		: kkang
+    * @desc			: 조회수 업데이트
+    * @date			: 2025.04.15
+    * @param id
+    */
+    void updateHit(int id);
+
+    /**
+    * @methodName	: selectData
+    * @author		: kkang
+    * @desc			: 글 상세 불러오기(수정페이지)
+    * @date			: 2025.04.15
+    * @param id
+    * @return
+    */
+    Map<String, Object> selectData(int id);
+
+    /**
+    * @methodName	: insertForm
+    * @author		: kkang
+    * @desc			: 등록
+    * @date			: 2025.04.15
+    * @param param
+    */
+    void insertForm(Map<String, Object> param);
+
+    void updateForm(Map<String, Object> param);
 }

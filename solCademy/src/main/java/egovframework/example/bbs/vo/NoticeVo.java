@@ -15,11 +15,48 @@ public class NoticeVo {
     private int noticeId;
     private String noticeType;
     private String noticeTitle;
-    private String noticeContent;
+    private String noticeContents;
     private int noticeInqCnt;
     private String noticeDispYn;
     private String noticeYn;
     private String noticeUseYn;
+    private String cretUserId;
+    private String modUserId;
+    private String cretDt;
+    private String modDt;
+
+
+
+    public String getCretUserId() {
+        return cretUserId;
+    }
+    public void setCretUserId(String cretUserId) {
+        this.cretUserId = cretUserId;
+    }
+    public String getModUserId() {
+        return modUserId;
+    }
+    public void setModUserId(String modUserId) {
+        this.modUserId = modUserId;
+    }
+    public String getCretDt() {
+        return cretDt;
+    }
+    public void setCretDt(String cretDt) {
+        this.cretDt = cretDt;
+    }
+    public String getModDt() {
+        return modDt;
+    }
+    public void setModDt(String modDt) {
+        this.modDt = modDt;
+    }
+    public String getNoticeContents() {
+        return noticeContents;
+    }
+    public void setNoticeContents(String noticeContents) {
+        this.noticeContents = noticeContents;
+    }
     public int getNoticeId() {
         return noticeId;
     }
@@ -38,12 +75,7 @@ public class NoticeVo {
     public void setNoticeTitle(String noticeTitle) {
         this.noticeTitle = noticeTitle;
     }
-    public String getNoticeContent() {
-        return noticeContent;
-    }
-    public void setNoticeContent(String noticeContent) {
-        this.noticeContent = noticeContent;
-    }
+
     public int getNoticeInqCnt() {
         return noticeInqCnt;
     }
