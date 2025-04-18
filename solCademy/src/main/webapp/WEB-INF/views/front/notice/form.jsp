@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- uploader -->
+<script type="text/javascript" src="/xFreeUploader/js/xFreeUploader.js"></script>
 <link href='/resource/SynapEditorPackage/SynapEditor/synapeditor.min.css' rel='stylesheet' type='text/css'>
 <!-- <script src='/resource/SynapEditor/synapeditor.config.js'></script> -->
 <script src='/resource/SynapEditorPackage/SynapEditor/synapeditor.min.js'></script>
 <script src="/resource/SynapEditorPackage/SynapEditor/externals/SEDocModelParser/SEDocModelParser.min.js"></script>
 <script src="/resource/SynapEditorPackage/SynapEditor/externals/SEShapeManager/SEShapeManager.min.js"></script>
+
 <style>
     table{ width: 800px; border: 1px solid #ddd; table-layout: fixed; }
     th { border: 1px solid #ddd; background: #f1f1f1; padding: 5px 10px; }
@@ -18,6 +21,8 @@ var formData = {
         init: function(){
             formData.editor();
             formData.event();
+            formData.uploader();
+
             if($('#noticeIdHidden').val() != ''){
                 $('.btnSubmit').text('수정');
                 formData.editInit();
@@ -36,7 +41,7 @@ var formData = {
         ,editInit : function(){ // 수정시 이전값 셋팅
             let dispYnVal= $('#noticeDispYnHidden').val();
             let ynVal= $('#noticeYnHidden').val();
-            let useYnVal= $('#noticeUseYnHidden').val();
+            let useYnVal= $('#useYnHidden').val();
             let typeVal = $('#noticeTypeHidden').val();
             $('#noticeType option').each(function(){
                 if($(this).val()== typeVal) {
@@ -53,7 +58,7 @@ var formData = {
                     $(this).prop('selected',true);
                 }
             })
-             $('#noticeUseYn option').each(function(){
+             $('#useYn option').each(function(){
                 if($(this).val()== useYnVal) {
                     $(this).prop('selected',true);
                 }
@@ -75,6 +80,22 @@ var formData = {
             }
             $('#formData').attr('action','/bbs/notice/form.do');
             $('#formData').submit();
+        }
+        ,wFileUpload : null
+        ,uploader: function(){
+            this.wFileUpload = new xFreeUploader({
+                render: 'fileUpload'
+                ,basePath: '/xFreeUploader'
+                ,uploadUrl: '/tagfree/xfuUpload.do' // 상대경로로 우회
+                ,onBeforeSubmit: function (data) {
+                    console.log("파일전송하기전");
+                }
+                // 업로드 정상 콜백
+                ,onSuccessCallback: function (data) {
+                    console.log("Upload success");
+                    console.log(data);
+                }
+            })
         }
         ,editor : function(){
             var synapEditorConfig = {
@@ -115,7 +136,7 @@ var formData = {
     <input type="hidden" name="noticeTypeHidden" id="noticeTypeHidden" value="${result.notice_type}">
     <input type="hidden" name="noticeDispYnHidden" id="noticeDispYnHidden" value="${result.notice_disp_yn}">
     <input type="hidden" name="noticeYnHidden" id="noticeYnHidden" value="${result.notice_disp_yn}">
-    <input type="hidden" name="noticeUseYnHidden" id="noticeUseYnHidden" value="${result.notice_use_yn}">
+    <input type="hidden" name="useYnHidden" id="useYnHidden" value="${result.notice_use_yn}">
 
     <!-- 등록 수정 데이터 -->
     <form id="formData" method="post" enctype="multipart/form-data">
@@ -181,10 +202,16 @@ var formData = {
                 </td>
                 <th scope="col">공지사항<br/>사용여부</th>
                 <td scope="col">
-                    <select name="noticeUseYn" id="noticeUseYn">
+                    <select name="useYn" id="useYn">
                         <option value="Y">사용</option>
                         <option value="N">미사용</option>
                     </select>
+                </td>
+            </tr>
+            <tr>
+                <th>첨부파일</th>
+                <td colspan="5">
+                    <div class="xFreeUploader-pnl" id="fileUpload"></div>
                 </td>
             </tr>
             <tr>

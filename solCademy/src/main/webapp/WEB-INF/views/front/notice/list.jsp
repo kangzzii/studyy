@@ -39,7 +39,7 @@ var list = {
                        txt += '    <td>'+ item[i].noticeInqCnt+'</td>';
                        txt += '    <td>'+ item[i].noticeDispYn+'</td>';
                        txt += '    <td>'+ item[i].noticeYn+'</td>';
-                       txt += '    <td>'+ item[i].noticeUseYn+'</td>';
+                       txt += '    <td>'+ item[i].useYn+'</td>';
                        txt += '    <td>'+ item[i].cretUserId+'</td>';
                        txt += '    <td class="dateCell" data-date="'+item[i].cretDt+'"></td>';
                        txt += '    <td>'+ item[i].modUserId+'</td>';
@@ -103,7 +103,7 @@ function changeDate(){
                 <td>${result.noticeInqCnt}</td>
                 <td>${result.noticeDispYn}</td>
                 <td>${result.noticeYn}</td>
-                <td>${result.noticeUseYn}</td>
+                <td>${result.useYn}</td>
                 <td>${result.cretUserId}</td>
                 <td class="dateCell" data-date="${result.cretDt}"></td>
                 <td>${result.modUserId}</td>

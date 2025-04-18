@@ -19,7 +19,7 @@ public class NoticeVo {
     private int noticeInqCnt;
     private String noticeDispYn;
     private String noticeYn;
-    private String noticeUseYn;
+    private String useYn;
     private String cretUserId;
     private String modUserId;
     private String cretDt;
@@ -94,11 +94,12 @@ public class NoticeVo {
     public void setNoticeYn(String noticeYn) {
         this.noticeYn = noticeYn;
     }
-    public String getNoticeUseYn() {
-        return noticeUseYn;
+    public String getUseYn() {
+        return useYn;
     }
-    public void setNoticeUseYn(String noticeUseYn) {
-        this.noticeUseYn = noticeUseYn;
+    public void setUseYn(String useYn) {
+        this.useYn = useYn;
     }
+
 
 }

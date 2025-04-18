@@ -10,7 +10,7 @@
             ,notice_inq_cnt
             ,notice_disp_yn
             ,notice_yn
-            ,notice_use_yn
+            ,use_yn
             ,cret_user_id
             ,mod_user_id
             ,cret_dt
@@ -31,7 +31,7 @@
             ,notice_inq_cnt
             ,notice_disp_yn
             ,notice_yn
-            ,notice_use_yn
+            ,use_yn
         FROM siana.notice
         WHERE 1=1
         AND notice_id = #{id}
@@ -54,7 +54,7 @@
             ,notice_inq_cnt
             ,notice_disp_yn
             ,notice_yn
-            ,notice_use_yn
+            ,use_yn
             ,cret_user_id
             ,mod_user_id
             ,cret_dt
@@ -82,7 +82,7 @@
             ,notice_contents = #{noticeContents}
             ,notice_disp_yn = #{noticeDispYn}
             ,notice_yn = #{noticeYn}
-            ,notice_use_yn = #{noticeUseYn}
+            ,use_yn = #{noticeUseYn}
             ,mod_user_id = #{modUserId}
             ,mod_dt = NOW()
         WHERE 1=1

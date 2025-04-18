@@ -127,6 +127,7 @@ public class NoticeController {
         String userId = (String) session.getAttribute("userId");
         param.put("modUserId", userId);
         noticeService.updateForm(param);
+        log.info("-----------------------{}", param);
         return "redirect:/bbs/notice/list.do";
     }
 
