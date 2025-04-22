@@ -46,7 +46,7 @@
         AND notice_id = #{id}
     </update>
     <!-- 등록 -->
-    <insert id="insertForm" parameterType="map">
+    <insert id="insertForm" useGeneratedKeys="true" keyProperty="noticeId">
         INSERT INTO siana.notice (
             notice_type
             ,notice_title
@@ -66,13 +66,51 @@
             ,0
             ,#{noticeDispYn}
             ,#{noticeYn}
-            ,#{noticeUseYn}
+            ,#{useYn}
             ,#{cretUserId}
             ,#{modUserId}
             ,NOW()
             ,NOW()
         )
     </insert>
+
+
+    <insert id="insertAttachFile">
+        <selectKey keyProperty="attachFileId" resultType="int" order="BEFORE">
+            SELECT nextval('siana.attach_file_id_seq')
+        </selectKey>
+        INSERT INTO
+            siana.attach_file (
+            attach_file_id
+            ,bbs_code_id
+            ,bbs_id
+            ,attach_file_name
+            ,attach_file_ori_name
+            ,attach_file_size
+            ,attach_file_path
+            ,use_yn
+            ,cret_user_id
+            ,cret_dt
+            ,mod_user_id
+            ,mod_dt
+        ) VALUES
+        (
+            #{attachFileId}
+            ,#{bbsCodeId}
+            ,#{bbsId}
+            ,#{attachFileName}
+            ,#{attachFileOriName}
+            ,#{attachFileSize}
+            ,#{attachFilePath}
+            ,#{useYn}
+            ,#{cretUserId}
+            ,NOW()
+            ,#{modUserId}
+            ,NOW()
+        )
+    </insert>
+
+    <!-- 수정 -->
     <update id="updateForm" parameterType="map">
         UPDATE
             siana.notice
@@ -88,4 +126,6 @@
         WHERE 1=1
         AND notice_id = #{noticeId};
     </update>
+
+
 </mapper>

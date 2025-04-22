@@ -96,6 +96,15 @@ public class AttachFileVo {
     public void setModDt(String modDt) {
         this.modDt = modDt;
     }
+    @Override
+    public String toString() {
+        return "AttachFileVo [attachFileId=" + attachFileId + ", bbsCodeId=" + bbsCodeId + ", bbsId=" + bbsId
+                + ", attachFileName=" + attachFileName + ", attachFileOriName=" + attachFileOriName
+                + ", attachFileSize=" + attachFileSize + ", attachFilePath=" + attachFilePath + ", useYn=" + useYn
+                + ", cretUserId=" + cretUserId + ", CretDt=" + CretDt + ", modUserId=" + modUserId + ", modDt=" + modDt
+                + "]";
+    }
+
 
 
 }

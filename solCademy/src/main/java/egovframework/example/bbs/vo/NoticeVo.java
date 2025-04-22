@@ -11,6 +11,8 @@
 */
 package egovframework.example.bbs.vo;
 
+import java.util.List;
+
 public class NoticeVo {
     private int noticeId;
     private String noticeType;
@@ -25,8 +27,15 @@ public class NoticeVo {
     private String cretDt;
     private String modDt;
 
+    private List<AttachFileVo> attachFileList;
 
+    public List<AttachFileVo> getAttachFileList() {
+        return attachFileList;
+    }
 
+    public void setAttachFileList(List<AttachFileVo> attachFileList) {
+        this.attachFileList = attachFileList;
+    }
     public String getCretUserId() {
         return cretUserId;
     }
@@ -100,6 +109,5 @@ public class NoticeVo {
     public void setUseYn(String useYn) {
         this.useYn = useYn;
     }
-
 
 }

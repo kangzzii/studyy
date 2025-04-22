@@ -44,7 +44,7 @@ public interface NoticeService {
     * @date			: 2025.04.15
     * @param param
     */
-    void registForm(Map<String, Object> param);
+    void registForm(NoticeVo noticeVo);
     /**
     * @methodName	: updateForm
     * @author		: kkang
@@ -53,4 +53,6 @@ public interface NoticeService {
     * @param param
     */
     void updateForm(Map<String, Object> param);
+
+    void fileUpload(List<Map<String, String>> param);
 }

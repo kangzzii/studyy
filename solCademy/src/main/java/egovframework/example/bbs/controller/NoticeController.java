@@ -11,6 +11,7 @@
 */
 package egovframework.example.bbs.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 import egovframework.example.bbs.service.NoticeService;
+import egovframework.example.bbs.vo.AttachFileVo;
 import egovframework.example.bbs.vo.BbsDefaultVo;
 import egovframework.example.bbs.vo.NoticeVo;
 
@@ -104,14 +107,48 @@ public class NoticeController {
     * @param param
     * @return
     */
+//    @PostMapping("/form.do")
+//    @ResponseBody
+//    public Object registForm(@RequestParam Map<String, Object> param, HttpSession session) {
+//        String userId = (String) session.getAttribute("userId");
+//        param.put("cretUserId", userId);
+//        param.put("modUserId", userId);
+//        //noticeService.registForm(param);
+//
+//        // 새로등록되는 게시물의 id값
+////        String noticeIdStr = (String) param.get("noticeId");
+////        Integer noticeId = Integer.parseInt(noticeIdStr);
+//        Integer noticeId =  67;
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("msg", "success");
+//        result.put("noticeId", noticeId);
+//        return result;
+//    }
+
     @PostMapping("/form.do")
-    public String registForm(@RequestParam Map<String, Object> param, HttpSession session) {
+    public String registForm(NoticeVo noticeVo, HttpSession session) {
+//        log.info("==============noticeVo================= {}", noticeVo);
         String userId = (String) session.getAttribute("userId");
-        param.put("cretUserId", userId);
-        param.put("modUserId", userId);
-        noticeService.registForm(param);
+        noticeVo.setCretUserId(userId);
+        noticeVo.setModUserId(userId);
+        noticeService.registForm(noticeVo);
         return "redirect:/bbs/notice/list.do";
     }
+
+
+   @PostMapping("/fileUpload.do")
+   @ResponseBody
+   public Object fileUpload(@RequestBody List<Map<String, String>> param) {
+       Map<String, String> result = new HashMap<String, String>();
+       if(param!= null && !param.isEmpty()) {
+           result.put("msg", "success");
+           log.info("-----------------fileUpload--------------------{}",param);
+          // noticeService.fileUpload(param);
+       } else {
+           result.put("msg", "err");
+       }
+       return result;
+   }
 
     /**
     * @methodName	: updateForm
@@ -127,7 +164,6 @@ public class NoticeController {
         String userId = (String) session.getAttribute("userId");
         param.put("modUserId", userId);
         noticeService.updateForm(param);
-        log.info("-----------------------{}", param);
         return "redirect:/bbs/notice/list.do";
     }
 

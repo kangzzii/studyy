@@ -14,15 +14,20 @@ package egovframework.example.bbs.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import egovframework.example.bbs.mapper.NoticeMapper;
 import egovframework.example.bbs.service.NoticeService;
+import egovframework.example.bbs.vo.AttachFileVo;
 import egovframework.example.bbs.vo.NoticeVo;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
+
+    Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     NoticeMapper noticeMapper;
@@ -48,8 +53,19 @@ public class NoticeServiceImpl implements NoticeService {
      *  등록
      */
     @Override
-    public void registForm(Map<String, Object> param){
-        noticeMapper.insertForm(param);
+    public void registForm(NoticeVo noticeVo){
+        noticeMapper.insertForm(noticeVo);
+        int generatedId = noticeVo.getNoticeId();
+        String cretUserId = noticeVo.getCretUserId();
+        String modUserId = noticeVo.getModUserId();
+        if (noticeVo.getAttachFileList() != null) {
+            for (AttachFileVo fileVo : noticeVo.getAttachFileList()) {
+                fileVo.setBbsId(generatedId);  // id 셋팅
+                fileVo.setCretUserId(cretUserId);
+                fileVo.setModUserId(modUserId);
+                noticeMapper.insertAttachFile(fileVo);
+            }
+        }
     }
     /**
      * 수정
@@ -60,6 +76,10 @@ public class NoticeServiceImpl implements NoticeService {
         noticeMapper.updateForm(param);
     }
 
+    @Override
+    public void fileUpload(List<Map<String, String>> param) {
+        noticeMapper.insertFile(param);
+    }
 
 
 

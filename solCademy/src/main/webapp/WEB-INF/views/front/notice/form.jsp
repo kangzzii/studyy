@@ -19,26 +19,23 @@
 <script>
 var formData = {
         init: function(){
-            formData.editor();
-            formData.event();
+            // 업로드, 에디터
             formData.uploader();
-
+            formData.editor();
+            // event
+            formData.event();
+            // edit
             if($('#noticeIdHidden').val() != ''){
                 $('.btnSubmit').text('수정');
-                formData.editInit();
+                formData.initEdit();
             }
         }
         ,event : function(){
-            // 등록 / 수정 버튼 클릭
             $('.btnSubmit').click(function(){
-                if($('#noticeIdHidden').val() != ''){
-                    formData.edit();
-                } else {
-                    formData.register();
-                }
+                formData.wFile.fileSelectedSubmit();
             })
         }
-        ,editInit : function(){ // 수정시 이전값 셋팅
+        ,initEdit: function(){
             let dispYnVal= $('#noticeDispYnHidden').val();
             let ynVal= $('#noticeYnHidden').val();
             let useYnVal= $('#useYnHidden').val();
@@ -64,36 +61,37 @@ var formData = {
                 }
             })
         }
-        ,edit : function(){         // 수정
-            if($('#noticeTitle').val() == '') {
-                alert('제목을 입력하세요.')
-                return false;
-            }
-            let noticeId = $('#noticeIdHidden').val();
-            $('#formData').attr('action','/bbs/notice/form/'+noticeId+'.do');
-            $('#formData').submit();
+        ,register : function(){
+            $('#formData').attr('action', '/bbs/notice/form.do').submit();
         }
-        ,register: function(){      // 등록
-            if($('#noticeTitle').val() == '') {
-                alert('제목을 입력하세요.')
-                return false;
+        ,uploadInput: function(data){
+            let txt = '';
+            for(let i=0;i<data.length;i++) {
+                txt += '<input type="hidden" name="attachFileList['+i+'].attachFileName" value="'+data[i].fileName+'" />';
+                txt += '<input type="hidden" name="attachFileList['+i+'].attachFileOriName" value="'+data[i].fileReName+'" />';
+                txt += '<input type="hidden" name="attachFileList['+i+'].attachFileSize" value="'+data[i].fileSize+'" />';
+                txt += '<input type="hidden" name="attachFileList['+i+'].attachFilePath" value="'+data[i].savePath+'" />';
+                txt += '<input type="hidden" name="attachFileList['+i+'].useYn" value="Y" />';
+                txt += '<input type="hidden" name="attachFileList['+i+'].bbsCodeId" value="'+$('#noticeType').val()+'" />';
             }
-            $('#formData').attr('action','/bbs/notice/form.do');
-            $('#formData').submit();
+            $('#formData').append(txt);
+            formData.register();    // form submit
         }
-        ,wFileUpload : null
+        ,wFile : null
         ,uploader: function(){
-            this.wFileUpload = new xFreeUploader({
+            this.wFile = new xFreeUploader({
                 render: 'fileUpload'
+                ,selectMode: 'hybrid'
                 ,basePath: '/xFreeUploader'
-                ,uploadUrl: '/tagfree/xfuUpload.do' // 상대경로로 우회
+                ,uploadUrl: '/tagfree/xfuUpload.do'
                 ,onBeforeSubmit: function (data) {
                     console.log("파일전송하기전");
                 }
                 // 업로드 정상 콜백
-                ,onSuccessCallback: function (data) {
-                    console.log("Upload success");
-                    console.log(data);
+                ,onAllSuccessCallback: function (data) {
+                    console.log("업로드 정상 콜백");
+                    console.log(data)
+                    formData.uploadInput(data);
                 }
             })
         }
@@ -140,7 +138,9 @@ var formData = {
 
     <!-- 등록 수정 데이터 -->
     <form id="formData" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="noticeId" id=noticeIdHidden value="${result.notice_id}">
+        <c:if test="not empty ${result.notice_id}">
+            <input type="hidden" name="noticeId" id=noticeIdHidden value="${result.notice_id}">
+        </c:if>
         <table>
         <colgroup>
             <col style="width: 100px;"/>
