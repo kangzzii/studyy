@@ -35,9 +35,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 import egovframework.example.bbs.service.NoticeService;
-import egovframework.example.bbs.vo.AttachFileVo;
 import egovframework.example.bbs.vo.BbsDefaultVo;
 import egovframework.example.bbs.vo.NoticeVo;
+import egovframework.example.cmmn.vo.AttachFileVo;
 
 @Controller
 @RequestMapping("/bbs/notice")
@@ -107,24 +107,6 @@ public class NoticeController {
     * @param param
     * @return
     */
-//    @PostMapping("/form.do")
-//    @ResponseBody
-//    public Object registForm(@RequestParam Map<String, Object> param, HttpSession session) {
-//        String userId = (String) session.getAttribute("userId");
-//        param.put("cretUserId", userId);
-//        param.put("modUserId", userId);
-//        //noticeService.registForm(param);
-//
-//        // 새로등록되는 게시물의 id값
-////        String noticeIdStr = (String) param.get("noticeId");
-////        Integer noticeId = Integer.parseInt(noticeIdStr);
-//        Integer noticeId =  67;
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("msg", "success");
-//        result.put("noticeId", noticeId);
-//        return result;
-//    }
-
     @PostMapping("/form.do")
     public String registForm(NoticeVo noticeVo, HttpSession session) {
 //        log.info("==============noticeVo================= {}", noticeVo);

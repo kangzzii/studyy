@@ -13,6 +13,8 @@ package egovframework.example.bbs.vo;
 
 import java.util.List;
 
+import egovframework.example.cmmn.vo.AttachFileVo;
+
 public class NoticeVo {
     private int noticeId;
     private String noticeType;

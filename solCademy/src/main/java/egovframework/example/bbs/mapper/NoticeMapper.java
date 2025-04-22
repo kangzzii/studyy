@@ -16,8 +16,8 @@ import java.util.Map;
 
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
-import egovframework.example.bbs.vo.AttachFileVo;
 import egovframework.example.bbs.vo.NoticeVo;
+import egovframework.example.cmmn.vo.AttachFileVo;
 
 @Mapper
 public interface NoticeMapper {
@@ -67,16 +67,4 @@ public interface NoticeMapper {
     * @param param
     */
     void updateForm(Map<String, Object> param);
-
-    /**
-    * @methodName	: insertFile
-    * @author		: kkang
-    * @desc			: 파일 등록
-    * @date			: 2025.04.21
-    * @param param
-    */
-    void insertFile(List<Map<String, String>> param);
-
-
-    void insertAttachFile(AttachFileVo fileVo);
 }

@@ -53,6 +53,4 @@ public interface NoticeService {
     * @param param
     */
     void updateForm(Map<String, Object> param);
-
-    void fileUpload(List<Map<String, String>> param);
 }

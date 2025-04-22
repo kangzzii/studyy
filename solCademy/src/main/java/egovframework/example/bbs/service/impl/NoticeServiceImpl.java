@@ -21,8 +21,9 @@ import org.springframework.stereotype.Service;
 
 import egovframework.example.bbs.mapper.NoticeMapper;
 import egovframework.example.bbs.service.NoticeService;
-import egovframework.example.bbs.vo.AttachFileVo;
 import egovframework.example.bbs.vo.NoticeVo;
+import egovframework.example.cmmn.mapper.AttachFileMapper;
+import egovframework.example.cmmn.vo.AttachFileVo;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
@@ -31,6 +32,8 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Autowired
     NoticeMapper noticeMapper;
+    @Autowired
+    AttachFileMapper attachFileMapper;
 
     /**
      *  공지사항 리스트
@@ -63,7 +66,7 @@ public class NoticeServiceImpl implements NoticeService {
                 fileVo.setBbsId(generatedId);  // id 셋팅
                 fileVo.setCretUserId(cretUserId);
                 fileVo.setModUserId(modUserId);
-                noticeMapper.insertAttachFile(fileVo);
+                attachFileMapper.insertAttachFile(fileVo);
             }
         }
     }
@@ -75,12 +78,5 @@ public class NoticeServiceImpl implements NoticeService {
         param.put("noticeId", Integer.parseInt((String)param.get("noticeId")));
         noticeMapper.updateForm(param);
     }
-
-    @Override
-    public void fileUpload(List<Map<String, String>> param) {
-        noticeMapper.insertFile(param);
-    }
-
-
 
 }

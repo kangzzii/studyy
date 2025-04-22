@@ -9,7 +9,7 @@
 * -----------------------------------------------------------
 * 2025.04.18        kkang       최초 생성
 */
-package egovframework.example.bbs.vo;
+package egovframework.example.cmmn.vo;
 
 public class AttachFileVo {
     private int attachFileId;
