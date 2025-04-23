@@ -22,7 +22,7 @@ public class TreeMenuVo {
     private String menuUrl;
     private String menuParam;
     private String menuPopYn;
-    private String menuUseYn;
+    private String useYn;
     public int getMenuId() {
         return menuId;
     }
@@ -83,12 +83,11 @@ public class TreeMenuVo {
     public void setMenuPopYn(String menuPopYn) {
         this.menuPopYn = menuPopYn;
     }
-    public String getMenuUseYn() {
-        return menuUseYn;
+    public String getUseYn() {
+        return useYn;
     }
-    public void setMenuUseYn(String menuUseYn) {
-        this.menuUseYn = menuUseYn;
+    public void setUseYn(String useYn) {
+        this.useYn = useYn;
     }
-
 
 }

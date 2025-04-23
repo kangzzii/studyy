@@ -11,6 +11,8 @@
 */
 package egovframework.example.cmmn.mapper;
 
+import java.util.List;
+
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
 import egovframework.example.cmmn.vo.AttachFileVo;
@@ -25,4 +27,23 @@ public interface AttachFileMapper {
      * @param param
      */
      void insertAttachFile(AttachFileVo fileVo);
+
+     /**
+    * @methodName	: selectFileList
+    * @author		: kkang
+    * @desc			: 파일 리스트 불러오기
+    * @date			: 2025.04.22
+    * @param id
+    * @return
+    */
+    List<AttachFileVo> selectFileList(int id);
+
+    /**
+    * @methodName	: upDateAttachFile
+    * @author		: kkang
+    * @desc			: 첨부파일 업데이트(논리삭제)
+    * @date			: 2025.04.23
+    * @param fileVo
+    */
+    void upDateAttachFile(AttachFileVo fileVo);
 }

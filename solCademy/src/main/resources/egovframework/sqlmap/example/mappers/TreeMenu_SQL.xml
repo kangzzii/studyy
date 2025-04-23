@@ -14,7 +14,7 @@
            , menu_url
            , menu_param
            , menu_pop_yn
-           , menu_use_yn
+           , use_yn
         FROM
             siana.menu
         WHERE
@@ -35,7 +35,7 @@
            , menu_url
            , menu_param
            , menu_pop_yn
-           , menu_use_yn
+           , use_yn
         FROM
             siana.menu
         WHERE
@@ -94,7 +94,7 @@
            , menu_url
            , menu_param
            , menu_pop_yn
-           , menu_use_yn
+           , use_yn
          ) VALUES (
             #{menuNm}
             , #{menuDesc}
@@ -105,7 +105,7 @@
             , #{menuUrl}
             , #{menuParam}
             , #{menuPopYn}
-            , #{menuUseYn}
+            , #{useYn}
          )
     </insert>
 
@@ -123,7 +123,7 @@
             , menu_url = #{menuUrl}
             , menu_param = #{menuParam}
             , menu_pop_yn = #{menuPopYn}
-            , menu_use_yn = #{menuUseYn}
+            , use_yn = #{useYn}
         WHERE 1=1
         AND menu_id = #{menuId}
     </update>

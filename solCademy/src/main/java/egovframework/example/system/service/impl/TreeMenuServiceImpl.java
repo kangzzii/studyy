@@ -74,7 +74,7 @@ public class TreeMenuServiceImpl implements TreeMenuService {
         result.setMenuDepth3(Integer.parseInt((String) param.get("menuDepth3")));
         result.setMenuOrder(Integer.parseInt((String) param.get("menuOrder")));
         result.setMenuPopYn((String) param.get("menuPopYn"));
-        result.setMenuUseYn((String) param.get("menuUseYn"));
+        result.setUseYn((String) param.get("useYn"));
         result.setMenuParam((String) param.get("menuParam"));
         log.info("-----------------------------{}", result);
         treeMenuMapper.insertMenu(result);

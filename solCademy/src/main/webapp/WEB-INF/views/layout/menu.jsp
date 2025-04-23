@@ -8,7 +8,7 @@ $(function(){
     // 1뎁스 리스트
     var depth1arr = treeList.filter(i => i.menuDepth1 == 0);
     for (let i=0; i<depth1arr.length; i++){
-        if(depth1arr[i].menuUseYn == 'Y'){
+        if(depth1arr[i].useYn == 'Y'){
          // 2뎁스 그리기
             let depth1Id = depth1arr[i].menuId;
             let depth2Txt = makeDepth2(depth1Id);
@@ -27,7 +27,7 @@ $(function(){
         txt += '<ul>'
 
         for(let i=0; i<depth2Arr.length; i++){
-            if(depth2Arr[i].menuUseYn == 'Y'){
+            if(depth2Arr[i].useYn == 'Y'){
                 // 3뎁스 값
                 let depth2Id = depth2Arr[i].menuId;
                 let depth3Txt = makeDepth3(indx,depth2Id);
@@ -49,7 +49,7 @@ $(function(){
         let txt = '';
         txt += '<ul>'
         for(let i=0; i<depth3Arr.length; i++){
-            if(depth3Arr[i].menuUseYn == 'Y'){
+            if(depth3Arr[i].useYn == 'Y'){
                 if(depth3Arr[i].menuUrl == '') {
                     depth3Arr[i].menuUrl = '#'
                 }

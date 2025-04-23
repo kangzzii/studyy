@@ -48,7 +48,7 @@ public interface NoticeMapper {
     * @param id
     * @return
     */
-    Map<String, Object> selectData(int id);
+    NoticeVo selectData(int id);
 
     /**
     * @methodName	: insertForm
@@ -66,5 +66,5 @@ public interface NoticeMapper {
     * @date			: 2025.04.21
     * @param param
     */
-    void updateForm(Map<String, Object> param);
+    void updateForm(NoticeVo noticeVo);
 }

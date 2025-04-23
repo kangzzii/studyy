@@ -53,7 +53,7 @@
                 <td>${result.menuDepth3}</td>
                 <td>${result.menuUrl}</td>
                 <td>${result.menuPopYn}</td>
-                <td>${result.menuUseYn}</td>
+                <td>${result.useYn}</td>
               </tr>
             </c:forEach>
                 <tr>

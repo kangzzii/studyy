@@ -30,6 +30,16 @@ public class NoticeVo {
     private String modDt;
 
     private List<AttachFileVo> attachFileList;
+    private List<AttachFileVo> attachDelFileList;
+
+
+    public List<AttachFileVo> getAttachDelFileList() {
+        return attachDelFileList;
+    }
+
+    public void setAttachDelFileList(List<AttachFileVo> attachDelFileList) {
+        this.attachDelFileList = attachDelFileList;
+    }
 
     public List<AttachFileVo> getAttachFileList() {
         return attachFileList;

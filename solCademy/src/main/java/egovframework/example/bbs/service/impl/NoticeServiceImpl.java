@@ -47,9 +47,13 @@ public class NoticeServiceImpl implements NoticeService {
      *  글 상세 불러오기(수정페이지)
      */
     @Override
-    public Map<String, Object> getForm(int id){
+    public NoticeVo getForm(int id){
         noticeMapper.updateHit(id);
-        return noticeMapper.selectData(id);
+        List<AttachFileVo> fileList = attachFileMapper.selectFileList(id);
+        NoticeVo noticeData = noticeMapper.selectData(id);
+        noticeData.setAttachFileList(fileList);
+//        log.info("noticeData-------------------{}",noticeData);
+        return noticeData;
     }
 
     /**
@@ -74,9 +78,25 @@ public class NoticeServiceImpl implements NoticeService {
      * 수정
      */
     @Override
-    public void updateForm(Map<String, Object> param) {
-        param.put("noticeId", Integer.parseInt((String)param.get("noticeId")));
-        noticeMapper.updateForm(param);
+    public void updateForm(int id, NoticeVo noticeVo) {
+        noticeVo.setNoticeId(id);
+        String cretUserId = noticeVo.getModUserId();
+        String modUserId = noticeVo.getModUserId();
+        if (noticeVo.getAttachFileList() != null) {
+            for (AttachFileVo fileVo : noticeVo.getAttachFileList()) {
+                fileVo.setBbsId(id);  // id 셋팅
+                fileVo.setCretUserId(cretUserId);
+                fileVo.setModUserId(modUserId);
+                attachFileMapper.insertAttachFile(fileVo);
+            }
+        }
+        if (noticeVo.getAttachDelFileList() != null) {
+            for (AttachFileVo fileVo : noticeVo.getAttachDelFileList()) {
+                fileVo.setBbsId(id);
+                attachFileMapper.upDateAttachFile(fileVo);
+            }
+        }
+        noticeMapper.updateForm(noticeVo);
     }
 
 }

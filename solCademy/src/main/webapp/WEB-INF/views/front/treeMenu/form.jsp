@@ -67,7 +67,7 @@ var menuForm = {
             let depth2Val = $('#hidmenuDepth2').val();
             let depth3Val = $('#hidmenuDepth3').val();
             let popYnVal = $('#hidmenuPopYn').val();
-            let useYnVal = $('#hidmenuUseYn').val();
+            let useYnVal = $('#hiduseYn').val();
             // 1뎁스 셋팅
             $('#menuDepth1').val(depth1Val).prop('selected', true);
             // 2뎁스 셋팅
@@ -77,7 +77,7 @@ var menuForm = {
             // popup Yn
             $('#menuPopYn').val(popYnVal).prop('selected', true);
             // use Yn
-            $('#menuUseYn').val(useYnVal).prop('selected', true);
+            $('#useYn').val(useYnVal).prop('selected', true);
             // btn 변경
             $('#btnSubmit').text('수정');
 
@@ -102,7 +102,7 @@ var menuForm = {
   <input type="hidden" id="hidmenuDepth2" value="${result.menuDepth2}">
   <input type="hidden" id="hidmenuDepth3" value="${result.menuDepth3}">
   <input type="hidden" id="hidmenuPopYn" value="${result.menuPopYn}">
-  <input type="hidden" id="hidmenuUseYn" value="${result.menuUseYn}">
+  <input type="hidden" id="hiduseYn" value="${result.useYn}">
   <form id="menuForm" action="/menu/form.do" method="post">
     <table>
         <tr>
@@ -158,7 +158,7 @@ var menuForm = {
           </td>
           <th>사용여부</th>
           <td>
-            <select name="menuUseYn" id="menuUseYn">
+            <select name="useYn" id="useYn">
               <option value="N">N</option>
               <option value="Y">Y</option>
             </select>

@@ -10,7 +10,6 @@
 * 2025.04.17        kkang       최초 생성
 */
 package egovframework.example.cmmn;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -46,6 +45,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,7 +61,10 @@ import com.google.gson.JsonObject;
 @Controller
 public class XFreeUploader{
 
+    Logger log = LoggerFactory.getLogger(getClass());
+
     String charsetName = "utf-8";
+    private String FILE_TARGET_PATH = "//192.168.35.217/upload/file";
 
     /**
      * 업로드 관련 컨트롤러 메소드
@@ -70,9 +74,8 @@ public class XFreeUploader{
      * @return : String 타입의 결과값 반환 (기존 out.println)
      */
     @ResponseBody
-//    @RequestMapping(value={"/xFreeUploader/tagfree/xfuUpload.do"}, produces="application/json;charset=utf-8")
-    @RequestMapping({"/xFreeUploader/tagfree/xfuUpload.do"})
-    public String xfuUploadJsp(@RequestParam Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value={"/xFreeUploader/tagfree/xfuUpload.do"})
+    public void xfuUploadJsp(@RequestParam Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String result = "errorUpLoadResult"; // 분기처리 되지 않을 경우 에러값을 리턴
 
@@ -222,22 +225,22 @@ public class XFreeUploader{
                         }
                     }
                 }
-
-                if ( arr.size() > 0 ) {
-                   result = arr.toString();
-                }
-                else {
-                   result = "";
-                }
+//
+//                if ( arr.size() > 0 ) {
+//                   result = arr.toString();
+//                }
+//                else {
+//                   result = "";
+//                }
 
             }
-            else {
-               result = "";
-            }
+//            else {
+//               result = "";
+//            }
 
             // 프런트단에 json형식으로 넘긴다.
             //out.println(arr.toString());
-//            result = arr.toString();
+            result = arr.toString();
         }
 
         // 업로드
@@ -263,7 +266,7 @@ public class XFreeUploader{
 
             //String uploadPath = getServletContext().getRealPath(request.getServletPath());
 //            String uploadPath = request.getServletContext().getRealPath("/");
-            String uploadPath = "//192.168.35.217/upload/file";
+            String uploadPath = FILE_TARGET_PATH;
 //            int upPos = uploadPath.lastIndexOf("\\");
 //            uploadPath = uploadPath.substring(0, upPos);
 
@@ -577,7 +580,11 @@ public class XFreeUploader{
             }
         }
 
-        return result;
+
+        response.setContentType("text/plain; charset=UTF-8");
+        response.getWriter().write(result);
+
+//        return result;
     }
 
     /**
@@ -588,8 +595,8 @@ public class XFreeUploader{
      * @return : String 타입의 결과값 반환 (기존 out.println)
      */
     @ResponseBody
-    @RequestMapping({"/xFreeUploader/tagfree/xfuDownload"})
-    public String xufDownloadJsp(@RequestParam Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping({"/xFreeUploader/tagfree/xfuDownload.do"})
+    public void xufDownloadJsp(@RequestParam Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String result = "errorDownLoadResult"; // 분기처리 되지 않을 경우 에러값을 리턴
 
         System.out.println("@RequestParam Map<String, Object> map\n"+map);
@@ -659,6 +666,7 @@ public class XFreeUploader{
 
             //String serverPath = getServletContext().getRealPath(request.getServletPath());
             String serverPath = request.getServletContext().getRealPath("/");
+
             int upPos = serverPath.lastIndexOf("\\");
             serverPath = serverPath.substring(0, upPos);
 
@@ -726,6 +734,12 @@ public class XFreeUploader{
 
             }
 
+//            if ( arr.size() > 0 ) {
+//                result = arr.toString();
+//            }
+//            else {
+//                result = "";
+//            }
 
             // 프런트단에 json형식으로 넘긴다.
             //out.println(arr.toString());
@@ -733,6 +747,9 @@ public class XFreeUploader{
 
         } else if(state.equals("DOWNLOAD")){
 
+
+            log.info("================DOWNLOAD======================{}");
+            log.info("================downList======================{}", map.get("downList"));
             // 파라미터 전달 받기
             String postData = (String) map.get("downList");
 
@@ -741,8 +758,11 @@ public class XFreeUploader{
 
                 //JSON데이터를 넣어 JSON Object 로 만들어 준다.
                 JSONArray jsonArr = (JSONArray) jsonParser.parse(postData);
+
+
                 int jsonArrCnt = jsonArr.toArray().length;
 
+                log.info("================jsonArrCnt======================{}", jsonArrCnt);
 
                 // single
                 if(jsonArrCnt == 1){
@@ -755,9 +775,10 @@ public class XFreeUploader{
                     filePath = filePath.replace("\\", "//");
 
                     //String sDownPath = getServletContext().getRealPath(request.getServletPath());
-                    String sDownPath = request.getServletContext().getRealPath("/");
-                    int upPos = sDownPath.lastIndexOf("\\");
-                    sDownPath = sDownPath.substring(0, upPos);
+//                    String sDownPath = request.getServletContext().getRealPath("/");
+                    String sDownPath = FILE_TARGET_PATH;
+//                    int upPos = sDownPath.lastIndexOf("\\");
+//                    sDownPath = sDownPath.substring(0, upPos);
                     String sFilePath = null;
 
                     int pos = -1;
@@ -834,10 +855,13 @@ public class XFreeUploader{
 
                         //ServletOutputStream sos = response.getOutputStream();
 
+                        log.info("=====================downFileName========================{}", downFileName);
                         int numRead = 0;
                         try{
+                            log.info("=====================try========================{}");
                             while((numRead = input.read(b)) != -1){
                                 output.write(b, 0, numRead);
+                                log.info("=====================downFileName========================{}", numRead);
                             }
 
                             output.close();
@@ -874,6 +898,7 @@ public class XFreeUploader{
                             makeLogData(fileFullUrl, logData);
                             */
                             result = "download complete";
+                            return ;
                         } catch(IOException ioe){
                             //System.out.println("errMsg : " + ioe.getMessage());
                             System.out.println("single download error");
@@ -907,9 +932,10 @@ public class XFreeUploader{
                         filePath = filePath.replace("\\", "//");
 
                         //String sDownPath = getServletContext().getRealPath(request.getServletPath());
-                        String sDownPath = request.getServletContext().getRealPath("/");
-                        int upPos = sDownPath.lastIndexOf("\\");
-                        sDownPath = sDownPath.substring(0, upPos);
+//                        String sDownPath = request.getServletContext().getRealPath("/");
+                        String sDownPath = FILE_TARGET_PATH;
+//                        int upPos = sDownPath.lastIndexOf("\\");
+//                        sDownPath = sDownPath.substring(0, upPos);
                         String sFilePath = null;
 
                         int pos = -1;
@@ -953,7 +979,8 @@ public class XFreeUploader{
                     JSONObject jsonObj =(JSONObject) jsonArr.get(jsonArrCnt-1);
                     String strPath = (String)jsonObj.get("savePath");
 
-                    String strTargetFolder = request.getServletContext().getRealPath("/");
+//                    String strTargetFolder = request.getServletContext().getRealPath("/");
+                    String strTargetFolder = FILE_TARGET_PATH;
                     int pos = -1;
                     if ((pos = strTargetFolder.lastIndexOf("/")) > 0)
                     {
@@ -1020,8 +1047,9 @@ public class XFreeUploader{
 
                             String file_name = file.getName();
                             int file_pos = file_name.lastIndexOf( "." );
+                            int file_nm_pos = file_name.lastIndexOf("@@");
                             String file_ext = file_name.substring( file_pos + 1 );
-                            String onlyFileName = file_name.substring(0, file_pos);
+                            String onlyFileName = file_name.substring(0, file_nm_pos);
                             String file_rename = onlyFileName + "_" + file_idx + "." + file_ext;
 
                             //ZipEntry ze = new ZipEntry(file.getName());
@@ -1088,7 +1116,9 @@ public class XFreeUploader{
 
                         bos.flush();
                         bos.close();
-                        result = "download complete";
+
+                        return ;
+//                        result = "download complete";
                     } catch(IOException ioe) {
                         //System.out.println("errMsg : " + ioe.getMessage());
                         System.out.println("multi download error");
@@ -1108,7 +1138,10 @@ public class XFreeUploader{
             }
         }
 
-        return result;
+        response.setContentType("text/plain; charset=UTF-8");
+        response.getWriter().write(result);
+
+//        return result;
     }
 
     // 그 외 메소드들 (업로드 관련)
@@ -1611,4 +1644,3 @@ public class XFreeUploader{
         return scheme + serverName + serverPort + contextPath;
     }
 }
-

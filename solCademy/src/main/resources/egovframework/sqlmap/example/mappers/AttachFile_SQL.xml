@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.example.cmmn.mapper.AttachFileMapper">
-
+    <!-- 등록 -->
     <insert id="insertAttachFile">
         <selectKey keyProperty="attachFileId" resultType="int" order="BEFORE">
             SELECT nextval('siana.attach_file_id_seq')
@@ -37,4 +37,34 @@
         )
     </insert>
 
+    <!-- 다운로드 -->
+    <select id="selectFileList">
+        SELECT
+            attach_file_id
+            ,attach_file_name
+            ,attach_file_ori_name
+            ,attach_file_path
+            ,attach_file_size
+            ,cret_dt
+        FROM siana.attach_file
+        WHERE 1=1
+        and
+            bbs_id = #{id}
+        and
+            use_yn = 'Y';
+    </select>
+
+    <update id="upDateAttachFile">
+        UPDATE
+            siana.attach_file
+        SET
+            use_yn = 'N'
+        WHERE 1=1
+        AND
+            bbs_id = #{bbsId}
+        AND
+            attach_file_name = #{attachFileName}
+        AND
+            attach_file_path = #{attachFilePath};
+    </update>
 </mapper>

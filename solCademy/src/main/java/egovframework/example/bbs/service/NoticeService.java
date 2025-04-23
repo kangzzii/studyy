@@ -35,7 +35,7 @@ public interface NoticeService {
     * @param id
     * @return
     */
-    Map<String, Object> getForm(int id);
+    NoticeVo getForm(int id);
 
     /**
     * @methodName	: registForm
@@ -52,5 +52,6 @@ public interface NoticeService {
     * @date			: 2025.04.15
     * @param param
     */
-    void updateForm(Map<String, Object> param);
+    void updateForm(int id, NoticeVo noticeVo);
+
 }

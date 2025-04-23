@@ -94,8 +94,11 @@ public class NoticeController {
     */
     @GetMapping("form/{id}.do")
     public String getForm(@PathVariable int id, Model model) {
-        Map<String, Object> result = noticeService.getForm(id);
-        model.addAttribute("result", result);
+
+        NoticeVo result = noticeService.getForm(id);
+        model.addAttribute("result", result);   // form 내용
+        Gson gson = new Gson();
+        model.addAttribute("fileList", gson.toJson(result.getAttachFileList()));    // 파일내용
         return "tiles/notice/form";
     }
 
@@ -117,21 +120,6 @@ public class NoticeController {
         return "redirect:/bbs/notice/list.do";
     }
 
-
-   @PostMapping("/fileUpload.do")
-   @ResponseBody
-   public Object fileUpload(@RequestBody List<Map<String, String>> param) {
-       Map<String, String> result = new HashMap<String, String>();
-       if(param!= null && !param.isEmpty()) {
-           result.put("msg", "success");
-           log.info("-----------------fileUpload--------------------{}",param);
-          // noticeService.fileUpload(param);
-       } else {
-           result.put("msg", "err");
-       }
-       return result;
-   }
-
     /**
     * @methodName	: updateForm
     * @author		: kkang
@@ -142,11 +130,11 @@ public class NoticeController {
     * @return
     */
     @PostMapping("/form/{id}.do")
-    public String updateForm(@PathVariable int id, @RequestParam Map<String, Object> param, HttpSession session) {
+    public String updateForm(@PathVariable int id, NoticeVo noticeVo, HttpSession session) {
         String userId = (String) session.getAttribute("userId");
-        param.put("modUserId", userId);
-        noticeService.updateForm(param);
+//        log.info("=====================noticeVo======================{}",noticeVo);
+        noticeVo.setModUserId(userId);
+        noticeService.updateForm(id, noticeVo);
         return "redirect:/bbs/notice/list.do";
     }
-
 }

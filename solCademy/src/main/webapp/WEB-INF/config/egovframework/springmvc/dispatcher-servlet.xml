@@ -13,24 +13,17 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
 
-    <!-- 인터셉터 -->
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**/*.do"/>
-            <bean class="egovframework.example.cmmn.MenuInterceptor"></bean>
-        </mvc:interceptor>
-    </mvc:interceptors>
-
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="webBindingInitializer">
             <bean class="egovframework.example.cmmn.web.EgovBindingInitializer"/>
         </property>
          <property name="messageConverters">
-	         <list>
-	            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
-	         </list>
+             <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+             </list>
          </property>
     </bean>
+
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="interceptors">
             <list>
@@ -40,31 +33,43 @@
     </bean>
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+
     <!-- 쿠키를 이용한 Locale 이용시 <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/> -->
     <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
         <property name="paramName" value="language" />
     </bean>
 
-    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <property name="defaultErrorView" value="cmmn/egovError"/>
-        <property name="exceptionMappings">
-            <props>
-                <prop key="org.springframework.dao.DataAccessException">cmmn/dataAccessFailure</prop>
-                <prop key="org.springframework.transaction.TransactionException">cmmn/transactionFailure</prop>
-                <prop key="org.egovframe.rte.fdl.cmmn.exception.EgovBizException">cmmn/egovError</prop>
-                <prop key="org.springframework.security.AccessDeniedException">cmmn/egovError</prop>
-            </props>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+            </list>
         </property>
     </bean>
+
+    <!-- 인터셉터 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*.do"/>
+            <bean class="egovframework.example.cmmn.MenuInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <!-- 암호화 -->
     <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 
-	 <!-- tiles 설정 -->
+    <!-- file -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="100000000"/>
+        <property name="maxInMemorySize" value="100000000"/>
+    </bean>
+
+    <!-- tiles 설정 -->
     <bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
         <property name="order" value="1" />
     </bean>
+
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
         <property name="definitions">
             <list>
@@ -72,27 +77,13 @@
             </list>
         </property>
     </bean>
+
     <!-- 기존 -->
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="2"
-	    p:viewClass="org.springframework.web.servlet.view.JstlView"
-	    p:prefix="/WEB-INF/jsp/view/" p:suffix=".jsp"/>
+        p:viewClass="org.springframework.web.servlet.view.JstlView"
+        p:prefix="/WEB-INF/jsp/view/" p:suffix=".jsp"/>
 
-    <!-- For Pagination Tag -->
-    <bean id="imageRenderer" class="egovframework.example.cmmn.web.EgovImgPaginationRenderer"/>
+    <mvc:annotation-driven />
 
-    <bean id="paginationManager" class="org.egovframe.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager">
-        <property name="rendererType">
-            <map>
-                <entry key="image" value-ref="imageRenderer"/>
-            </map>
-        </property>
-    </bean>
-	<!-- /For Pagination Tag -->
-
-    <!-- file -->
-     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-      <property name="maxUploadSize" value="100000000"/>
-      <property name="maxInMemorySize" value="100000000"/>
-   </bean>
     <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
 </beans>

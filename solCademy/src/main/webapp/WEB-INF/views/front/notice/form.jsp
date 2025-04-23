@@ -25,14 +25,14 @@ var formData = {
             // event
             formData.event();
             // edit
-            if($('#noticeIdHidden').val() != ''){
+            if($('#noticeIdHidden').val()!=''){
                 $('.btnSubmit').text('수정');
                 formData.initEdit();
             }
         }
         ,event : function(){
             $('.btnSubmit').click(function(){
-                formData.wFile.fileSelectedSubmit();
+                formData.wFile.fileSubmit();
             })
         }
         ,initEdit: function(){
@@ -60,23 +60,43 @@ var formData = {
                     $(this).prop('selected',true);
                 }
             })
+
         }
         ,register : function(){
             $('#formData').attr('action', '/bbs/notice/form.do').submit();
         }
+        ,edit : function(){
+            if(formData.delArr.length > 0){
+                formData.delArr.forEach(function(item, i){
+                    let fileReName = item.fileRealUrl.split(item.serverFilePath+'/')[1];
+                    $('#formData').append('<input type="hidden" name="attachDelFileList['+i+'].attachFileName" value="'+fileReName+'" />');
+                    $('#formData').append('<input type="hidden" name="attachDelFileList['+i+'].attachFilePath" value="'+item.serverFilePath+'" />');
+                })
+            }
+            let noticeId = $('#noticeIdHidden').val();
+            $('#formData').attr('action', '/bbs/notice/form/'+noticeId+'.do').submit();
+        }
         ,uploadInput: function(data){
             let txt = '';
             for(let i=0;i<data.length;i++) {
-                txt += '<input type="hidden" name="attachFileList['+i+'].attachFileName" value="'+data[i].fileName+'" />';
-                txt += '<input type="hidden" name="attachFileList['+i+'].attachFileOriName" value="'+data[i].fileReName+'" />';
+                txt += '<input type="hidden" name="attachFileList['+i+'].attachFileName" value="'+data[i].fileReName+'" />';
+                txt += '<input type="hidden" name="attachFileList['+i+'].attachFileOriName" value="'+data[i].fileName+'" />';
                 txt += '<input type="hidden" name="attachFileList['+i+'].attachFileSize" value="'+data[i].fileSize+'" />';
                 txt += '<input type="hidden" name="attachFileList['+i+'].attachFilePath" value="'+data[i].savePath+'" />';
                 txt += '<input type="hidden" name="attachFileList['+i+'].useYn" value="Y" />';
                 txt += '<input type="hidden" name="attachFileList['+i+'].bbsCodeId" value="'+$('#noticeType').val()+'" />';
             }
             $('#formData').append(txt);
-            formData.register();    // form submit
+
+            if($('#noticeIdHidden').val()!=''){
+                // 수정
+                formData.edit()
+            } else {
+                // 등록
+                formData.register()
+            };
         }
+        ,delArr : []
         ,wFile : null
         ,uploader: function(){
             this.wFile = new xFreeUploader({
@@ -84,6 +104,9 @@ var formData = {
                 ,selectMode: 'hybrid'
                 ,basePath: '/xFreeUploader'
                 ,uploadUrl: '/tagfree/xfuUpload.do'
+                ,downloadUrl: '/tagfree/xfuDownload.do'
+                ,isDisabledImagePreviewDialog : true
+                , validCheck    : false
                 ,onBeforeSubmit: function (data) {
                     console.log("파일전송하기전");
                 }
@@ -92,6 +115,32 @@ var formData = {
                     console.log("업로드 정상 콜백");
                     console.log(data)
                     formData.uploadInput(data);
+                }
+                ,onLoad: function(data){
+                    /* 첨부파일 불러오기 */
+                    let attachFileListStr = '${fileList}';
+                    if (attachFileListStr) {
+                        try {
+                            let attachFileList = JSON.parse(attachFileListStr);
+                            attachFileList.forEach(function(item, index){
+                                formData.wFile.fileAttachAddTxt(item.attachFileOriName, item.attachFilePath, item.attachFileSize, item.CretDt ,item.attachFilePath+'/'+item.attachFileName);
+                            })
+                            // 처리 로직
+                        } catch (e) {
+                            console.error("JSON 파싱 에러:", e);
+                        }
+                    } else {
+                        console.log("fileList가 비어있습니다.");
+                    }
+                }
+                ,onDeleteFile: function(data){
+                    console.log('삭제버튼 누름!')
+                    data.beforeDeleteData.forEach(function(item){
+                       if( item.serverFilePath != ''){
+                           console.log(item)
+                           formData.delArr.push(item)
+                       }
+                    })
                 }
             })
         }
@@ -131,16 +180,14 @@ var formData = {
 }
 </script>
     <!-- 수정 데이터 -->
-    <input type="hidden" name="noticeTypeHidden" id="noticeTypeHidden" value="${result.notice_type}">
-    <input type="hidden" name="noticeDispYnHidden" id="noticeDispYnHidden" value="${result.notice_disp_yn}">
-    <input type="hidden" name="noticeYnHidden" id="noticeYnHidden" value="${result.notice_disp_yn}">
-    <input type="hidden" name="useYnHidden" id="useYnHidden" value="${result.notice_use_yn}">
+    <input type="hidden" name="noticeTypeHidden" id="noticeTypeHidden" value="${result.noticeType}">
+    <input type="hidden" name="noticeDispYnHidden" id="noticeDispYnHidden" value="${result.noticeDispYn}">
+    <input type="hidden" name="noticeYnHidden" id="noticeYnHidden" value="${result.noticeYn}">
+    <input type="hidden" name="useYnHidden" id="useYnHidden" value="${result.useYn}">
 
+    <input type="hidden" name="noticeId" id=noticeIdHidden value="${result.noticeId}">
     <!-- 등록 수정 데이터 -->
     <form id="formData" method="post" enctype="multipart/form-data">
-        <c:if test="not empty ${result.notice_id}">
-            <input type="hidden" name="noticeId" id=noticeIdHidden value="${result.notice_id}">
-        </c:if>
         <table>
         <colgroup>
             <col style="width: 100px;"/>
@@ -154,14 +201,14 @@ var formData = {
             <tr>
                 <th>제목</th>
                 <td scope="col" colspan="5">
-                    <input type="text" name="noticeTitle" id="noticeTitle" value="${result.notice_title}">
+                    <input type="text" name="noticeTitle" id="noticeTitle" value="${result.noticeTitle}">
                 </td>
             </tr>
 
             <tr>
                 <th>공지사항<br/>타입</th>
                 <c:choose>
-                    <c:when test="${result.notice_id != null}">
+                    <c:when test="${result.noticeId != null}">
                     <!-- 수정 -->
                     <td colspan="3">
                         <select name="noticeType" id="noticeType">
@@ -171,7 +218,7 @@ var formData = {
                         </select>
                     </td>
                     <th>조회수</th>
-                    <td>${result.notice_inq_cnt}</td>
+                    <td>${result.noticeInqCnt}</td>
                     </c:when>
                     <c:otherwise>
                         <!-- 등록 -->
@@ -219,7 +266,7 @@ var formData = {
                 <td colspan="5">
                     <div style="height:700px;">
                         <textarea id="synapEditor" name="noticeContents">
-                            ${result.notice_contents}
+                            ${result.noticeContents}
                         </textarea>
                     </div>
                 </td>
