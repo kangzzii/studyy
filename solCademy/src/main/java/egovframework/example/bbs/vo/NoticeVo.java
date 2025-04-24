@@ -28,7 +28,17 @@ public class NoticeVo {
     private String modUserId;
     private String cretDt;
     private String modDt;
+    private int total;
 
+
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
     private List<AttachFileVo> attachFileList;
     private List<AttachFileVo> attachDelFileList;
 

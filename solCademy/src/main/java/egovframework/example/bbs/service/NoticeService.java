@@ -25,7 +25,7 @@ public interface NoticeService {
     * @date			: 2025.04.14
     * @return
     */
-    List<NoticeVo> getList(int numb);
+    Map<String, Object> getList(Map<String, String> param);
 
     /**
     * @methodName	: getForm

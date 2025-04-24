@@ -29,7 +29,16 @@ public interface NoticeMapper {
     * @date			: 2025.04.14
     * @return
     */
-    List<NoticeVo> selectList(int numb);
+    List<NoticeVo> selectList(Map<String, Integer> param);
+
+    /**
+    * @methodName	: selectTotalCtn
+    * @author		: kkang
+    * @desc			: 리스트 총갯수
+    * @date			: 2025.04.24
+    * @return
+    */
+    int selectTotalCtn();
 
     /**
     * @methodName	: updateHit

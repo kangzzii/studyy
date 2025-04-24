@@ -11,6 +11,7 @@
 */
 package egovframework.example.bbs.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,8 +40,22 @@ public class NoticeServiceImpl implements NoticeService {
      *  공지사항 리스트
      */
     @Override
-    public List<NoticeVo> getList(int numb){
-        return noticeMapper.selectList(numb);
+    public Map<String, Object> getList(Map<String, String> param){
+        int pageNo = Integer.parseInt((String) param.get("pageNo"));
+        int pageSize = Integer.parseInt((String) param.get("pageSize"));
+        int startNumb = pageNo * pageSize;
+
+        Map<String, Integer> resultNumb = new HashMap<String, Integer>();
+        resultNumb.put("startNumb", startNumb);
+        resultNumb.put("pageSize", pageSize);
+
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("list", noticeMapper.selectList(resultNumb));
+        result.put("total", noticeMapper.selectTotalCtn());
+
+
+
+        return result;
     }
 
     /**

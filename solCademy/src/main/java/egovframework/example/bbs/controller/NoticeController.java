@@ -56,22 +56,27 @@ public class NoticeController {
     * @param model
     * @return
     */
+//    @GetMapping("/list2.do")
+//    public String getList2(Model model) {
+//        int defaultNumb = 10;
+//        List<NoticeVo> result = noticeService.getList(defaultNumb);
+//        model.addAttribute("resultList", result);
+//        Gson gson = new Gson();
+//        model.addAttribute("jsonListData", gson.toJson(result));
+//        return "tiles/notice/list_back";
+//    }
+
+
     @GetMapping("/list.do")
-    public String getList(Model model) {
-        int defaultNumb = 10;
-        List<NoticeVo> result = noticeService.getList(defaultNumb);
-        model.addAttribute("resultList", result);
+    public String getList() {
         return "tiles/notice/list";
     }
 
-    @PostMapping("/list.do")
+    @PostMapping("/getList.do")
     @ResponseBody
-    public Object changeList(@RequestParam int numb) {
-        List<NoticeVo> result = noticeService.getList(numb);
-        Gson gson = new Gson();
-        return gson.toJson(result);
+    public Map<String, Object> ajaxGetList(@RequestParam Map<String, String> param){
+        return noticeService.getList(param);
     }
-
     /**
     * @methodName	: doRegister
     * @author		: kkang
