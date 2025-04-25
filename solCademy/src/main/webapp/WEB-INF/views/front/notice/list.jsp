@@ -3,6 +3,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="/resource/SBGrid3/sbgrid3.js" type="text/javascript"></script>
 <link href="/resource/SBGrid3/css/sbgrid3.css" rel="stylesheet" />
+
+<div class="search-box">
+    <form>
+        <select id="searchSoarting">
+            <option value="all">전체</option>
+            <option value="title">제목</option>
+            <option value="cretUser">생성자 이름</option>
+        </select>
+        <input type="text" placeholder="검색어" id="searchTxt"/>
+        <button type="button" id="btnSearch">검색</button>
+    </form>
+</div>
+
 <div id="grid"></div>
 
 <script id='cellTemplate' type='text/x-handlebars-template'>
@@ -12,8 +25,20 @@
 <script>
 $(function(){
   grid.init();
+  search.event();
 })
+let search = {
+        event : function(){
+            let searchCond = $('#searchSoarting').val();
+            let searchTxt = $('#searchTxt').val();
+            $('#btnSearch').click(function(){
 
+            });
+        }
+        doSearch: function(cond, txt){
+
+        }
+}
 let grid = {
         init: function(){
             let gridConfig = {
@@ -22,8 +47,8 @@ let grid = {
                 ,width: '100%'
                 ,height: '550px'
                 ,columns: [
-                      { field: 'noticeId', caption: '게시글번호'}
-                     ,{ field: 'noticeType', caption: '공지사항 타입'}
+                     { field: 'noticeId', caption: '게시글번호'}
+                    ,{ field: 'noticeType', caption: '공지사항 타입'}
                     ,{ field: 'noticeTitle', caption: '제목', cellTemplate: '#cellTemplate',}
                     ,{ field: 'noticeInqCnt', caption: '조회수'}
                     ,{ field: 'noticeDispYn', caption: '게시여부', filter:true }
@@ -63,8 +88,7 @@ let grid = {
                             ,data: request
                             ,dataType: "json"
                             ,success: function (resData) {
-                                console.log(resData)
-                              resolve({data : resData.list, total: resData.total});
+                                resolve({data : resData.list, total: resData.total});
                             }
                             ,error: function () {
                               reject();
@@ -77,18 +101,6 @@ let grid = {
             }
             ,serverPaging : true
         }
-//         ,getData: async function(request) {
-//             return new Promise((resolve, reject) => {
-//                 $.ajax({
-//                     url: '/bbs/notice/getList.do',
-//                     method: 'post',
-//                     success: function(result) {
-//                         console.log(result.length);
-//                         resolve({ data: result });
-//                     }
-//                 });
-//             });
-//         }
         ,pager: function(){
             let pageNo = SBGrid3.getPageNo(datagrid);
             let pageSize = SBGrid3.getPageSize(datagrid);

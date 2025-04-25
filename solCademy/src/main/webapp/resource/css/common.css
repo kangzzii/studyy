@@ -180,3 +180,28 @@ nav ul li {
 .treemenu > ul li ul,
 .treemenu > ul li ul li  ul  { margin-left: 20px; list-style: disc;}
 .treemenu li { margin-top: 10px; }
+.search-box form {
+    display: flex;
+    gap: 0 10px;
+    justify-content: space-between;
+}
+.search-box form select {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+.search-box form button {
+    border: 1px solid #333;
+    background: #333;
+    color: #fff;
+    width: 100px;
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 5px;
+}
+.search-box form input {
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
